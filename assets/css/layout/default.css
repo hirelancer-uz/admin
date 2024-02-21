@@ -28,7 +28,7 @@
   left: 0;
   z-index: 2000;
 }
-.ant-menu-sub .ant-menu-item{
+.ant-menu-sub .ant-menu-item {
   /* padding-left: 12px !important; */
   margin-top: 0 !important;
   margin-bottom: 0 !important;
@@ -243,6 +243,7 @@
   border-radius: 0.475rem !important;
   pointer-events: none;
 }
+.is-active,
 .is-active a {
   color: #fff !important;
 }

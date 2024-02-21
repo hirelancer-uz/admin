@@ -29,7 +29,7 @@
           <div class="item">
             <p class="question">Published date</p>
             <p class="answer">
-              {{ order?.created_at }}
+              {{ publishedDate }}
             </p>
           </div>
           <div class="item">
@@ -85,6 +85,9 @@ import moment from "moment";
 export default {
   props: ["order"],
   computed: {
+    publishedDate() {
+      return moment(this.order.created_at).format("HH:mm DD.MM.YYYY");
+    },
     baseUrl() {
       return process.env.BASE_URL;
     },

@@ -265,7 +265,7 @@ function getBase64(file) {
 export default {
   mixins: [status, authAccess],
   head: {
-    title: "Новости",
+    title: "Общие данные",
   },
   data() {
     return {

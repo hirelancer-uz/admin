@@ -32,8 +32,94 @@
             :default-selected-keys="['1']"
             :default-open-keys="defaultOpens"
             :open-keys.sync="openKeys"
+            :inline-collapsed="collapsed"
           >
-            <a-sub-menu :key="menu.sub" style="color: #9d9da6" v-for="menu in menuData">
+            <a-menu-item
+              class="menu_item"
+              v-if="menuList.dashboard.show"
+              :key="menuList.dashboard.key"
+              @click="$router.push(menuList.dashboard.to)"
+              :class="{
+                'is-active': $route.name == 'dashboard',
+              }"
+            >
+              <a-icon v-html="menuList.dashboard.icon"></a-icon>
+              <span>
+                <nuxt-link :to="menuList.dashboard.to">
+                  <span>{{ d(menuList.dashboard) }}</span>
+                </nuxt-link>
+              </span>
+            </a-menu-item>
+            <a-menu-item
+              class="menu_item"
+              v-if="menuList.freelancers.show"
+              :key="menuList.freelancers.key"
+              @click="$router.push(menuList.freelancers.to)"
+              :class="{
+                'is-active': $route.name == 'index',
+              }"
+            >
+              <a-icon v-html="menuList.freelancers.icon"></a-icon>
+              <span>
+                <nuxt-link :to="menuList.freelancers.to">
+                  <span>{{ d(menuList.freelancers) }}</span>
+                </nuxt-link>
+              </span>
+            </a-menu-item>
+            <a-menu-item
+              class="menu_item"
+              v-if="menuList.orders.show"
+              :key="menuList.orders.key"
+              @click="$router.push(menuList.orders.to)"
+              :class="{
+                'is-active': 'orders-status' == $route.name,
+              }"
+            >
+              <a-icon v-html="menuList.orders.icon"></a-icon>
+              <span>
+                <nuxt-link :to="menuList.orders.to"
+                  ><span>{{ d(menuList.orders) }}</span>
+                </nuxt-link>
+              </span>
+            </a-menu-item>
+
+            <a-menu-item
+              class="menu_item"
+              v-if="menuList.transactions.show"
+              :key="menuList.transactions.key"
+              @click="$router.push(menuList.transactions.to)"
+              :class="{
+                'is-active': 'transactions' == $route.name,
+              }"
+            >
+              <a-icon v-html="menuList.transactions.icon"></a-icon>
+              <span>
+                <nuxt-link :to="menuList.transactions.to"
+                  ><span>{{ d(menuList.transactions) }}</span>
+                </nuxt-link>
+              </span>
+            </a-menu-item>
+            <a-menu-item
+              class="menu_item"
+              v-if="menuList.helpDesk.show"
+              :key="menuList.helpDesk.key"
+              @click="$router.push(menuList.helpDesk.to)"
+              :class="{
+                'is-active': 'help-desk' == $route.name,
+              }"
+            >
+              <a-icon v-html="menuList.helpDesk.icon"></a-icon>
+              <span>
+                <nuxt-link :to="menuList.helpDesk.to"
+                  ><span>{{ d(menuList.helpDesk) }}</span>
+                </nuxt-link>
+              </span>
+            </a-menu-item>
+            <a-sub-menu
+              :key="menu.sub"
+              style="color: #9d9da6"
+              v-for="menu in menuData.filter((elem) => elem.menuItems.length > 1)"
+            >
               <span slot="title">
                 <span v-html="menu.icon"></span
                 ><span v-if="!collapsed">{{ menu.title }}</span></span
@@ -90,6 +176,43 @@ export default {
       logo: require("../assets/svg/logo-light.svg?raw"),
       icon: require("../assets/svg/toolbar-catalog.svg?raw"),
       menuData: [],
+      menuList: {
+        dashboard: {
+          key: "1",
+          icon: require("../assets/svg/dashboard.svg?raw"),
+          name: "Dashboard",
+          show: true,
+          to: "/dashboard",
+        },
+        freelancers: {
+          key: "2",
+          icon: require("../assets/svg/clients.svg?raw"),
+          name: "Фрилансеры",
+          show: true,
+          to: "/",
+        },
+        orders: {
+          name: "Все заказы",
+          key: "3",
+          to: "/orders/all-orders",
+          icon: require("../assets/svg/orderIcon.svg?raw"),
+          show: true,
+        },
+        transactions: {
+          name: "Транзакции",
+          key: "4",
+          to: "/transactions",
+          icon: require("../assets/svg/transc.svg?raw"),
+          show: true,
+        },
+        helpDesk: {
+          name: "Служба поддержки",
+          key: "5",
+          to: "/help-desk",
+          icon: require("../assets/svg/helpDesk.svg?raw"),
+          show: true,
+        },
+      },
     };
   },
 
@@ -114,7 +237,7 @@ export default {
             to: "/",
             add: "/",
             edit: "/",
-            show: this.checkShow("freelancers/all"),
+            show: false,
           },
         ],
       },
@@ -123,14 +246,14 @@ export default {
         sub: "2",
         icon: require("../assets/svg/orderIcon.svg?raw"),
         menuItems: [
-          {
-            name: "В модерации",
-            index: "31",
-            to: "/orders/in_moderation",
-            path: "orders-in_moderation",
-            disabled: false,
-            show: this.checkShow("orders"),
-          },
+          // {
+          //   name: "В модерации",
+          //   index: "31",
+          //   to: "/orders/in_moderation",
+          //   path: "orders-in_moderation",
+          //   disabled: false,
+          //   show: this.checkShow("orders"),
+          // },
           {
             name: "Все заказы",
             index: "32",
@@ -139,39 +262,39 @@ export default {
             disabled: false,
             show: this.checkShow("orders"),
           },
-          {
-            name: "Aктивный",
-            index: "33",
-            to: "/orders/active",
-            path: "orders-active",
-            disabled: false,
-            show: this.checkShow("orders"),
-          },
+          // {
+          //   name: "Aктивный",
+          //   index: "33",
+          //   to: "/orders/active",
+          //   path: "orders-active",
+          //   disabled: false,
+          //   show: this.checkShow("orders"),
+          // },
 
-          {
-            name: "В процессе",
-            index: "34",
-            to: "/orders/in_process",
-            path: "orders-in_process",
-            disabled: false,
-            show: this.checkShow("orders"),
-          },
-          {
-            name: "Отмена модератором",
-            index: "35",
-            to: "/orders/concel-moderator",
-            path: "orders-concel-moderator",
-            disabled: false,
-            show: this.checkShow("orders"),
-          },
-          {
-            name: "Отмена клиентом",
-            index: "38",
-            to: "/orders/cancelled",
-            path: "orders-cancelled",
-            disabled: false,
-            show: this.checkShow("orders"),
-          },
+          // {
+          //   name: "В процессе",
+          //   index: "34",
+          //   to: "/orders/in_process",
+          //   path: "orders-in_process",
+          //   disabled: false,
+          //   show: this.checkShow("orders"),
+          // },
+          // {
+          //   name: "Отмена модератором",
+          //   index: "35",
+          //   to: "/orders/concel-moderator",
+          //   path: "orders-concel-moderator",
+          //   disabled: false,
+          //   show: this.checkShow("orders"),
+          // },
+          // {
+          //   name: "Отмена клиентом",
+          //   index: "38",
+          //   to: "/orders/cancelled",
+          //   path: "orders-cancelled",
+          //   disabled: false,
+          //   show: this.checkShow("orders"),
+          // },
         ],
       },
 
@@ -196,6 +319,22 @@ export default {
         sub: "5",
         icon: require("../assets/svg/settings.svg?raw"),
         menuItems: [
+          {
+            key: "23",
+            name: "Общие данные",
+            to: "/settings/site-info",
+            add: "settings-site-info",
+            edit: "settings-site-info",
+            show: true,
+          },
+          {
+            key: "24",
+            name: "Переводы",
+            to: "/settings/translations",
+            add: "settings-translations",
+            edit: "settings-translations",
+            show: true,
+          },
           {
             key: "25",
             name: "Регионы",
@@ -308,4 +447,11 @@ export default {
 </script>
 <style lang="css">
 @import "../assets/css/layout/default.css";
+.menu_item {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.menu_item span svg {
+  margin-right: 10px;
+}
 </style>

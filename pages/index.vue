@@ -66,10 +66,14 @@
           :loading="loading"
           align="center"
         >
-          <span to="/orders/1232/details" slot="client" slot-scope="text" align="center">
-            {{ text }}
-          </span>
+      
           <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
+          <span
+            @click="$router.push(`/freelancers/${text?.id}`)"
+            slot="name"
+            slot-scope="text"
+            >{{ text?.name }}</span
+          >
 
           <span
             slot="online"
@@ -148,7 +152,6 @@
       centered
       :title="'Специальности'"
       width="720px"
-      @ok="handleOk"
     >
       <div class="d-flex flex-column">
         <a-list item-layout="horizontal" :data-source="data">
@@ -290,7 +293,7 @@ export default {
           key: index + pageIndex,
         };
       });
-      console.log(this.freelancers);
+      // console.log(this.freelancers);
       this.totalPage = data?.meta?.total;
       // this.orders.dataAdd = moment(data?.orders?.created_at).format("DD/MM/YYYY");
     },

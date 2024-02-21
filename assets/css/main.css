@@ -83,3 +83,6 @@ ul {
   line-height: 32px;
   color: #181c32;
 }
+.cursor-pointer {
+  cursor: pointer;
+}

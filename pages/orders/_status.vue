@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="all-orders">
+  <div class="all-orders pb-5">
     <TitleBlock
       v-if="orderStatus[$route.params.status]"
       :title="orderStatus[$route.params.status]"
@@ -92,9 +92,25 @@
           :pagination="false"
           :loading="loading"
           align="center"
+          :scroll="{ x: 1400 }"
         >
-          <span to="/orders/1232/details" slot="client" slot-scope="text" align="center">
-            {{ text }}
+          <span
+            @click="$router.push(`/orders/order/${text?.id}`)"
+            slot="name"
+            slot-scope="text"
+          >
+            {{ text?.name }}
+          </span>
+          <span slot="specialities" slot-scope="text">
+            <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
+            <a-tag
+              color="blue"
+              v-else
+              style="cursor: pointer"
+              @click="currentFreelancer(text)"
+            >
+              {{ text?.length }}
+            </a-tag>
           </span>
           <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
 
@@ -162,6 +178,30 @@
         </div>
       </div>
     </div>
+    <a-modal
+      v-model="visible"
+      class="text-modal"
+      centered
+      :title="'Специальности'"
+      width="720px"
+    >
+      <div class="d-flex flex-column">
+        <a-list item-layout="horizontal" :data-source="specialities">
+          <a-list-item slot="renderItem" slot-scope="item, index">
+            <a-list-item-meta>
+              <a slot="id" href="https://www.antdv.com/">{{ item.id }}</a>
+              <a slot="title" href="https://www.antdv.com/">{{ item.name_ru }}</a>
+              <a-avatar v-if="item.icon" slot="avatar" :src="`${imgUrl}${item.icon}`" />
+              <a-avatar
+                v-else
+                slot="avatar"
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              />
+            </a-list-item-meta>
+          </a-list-item>
+        </a-list>
+      </div>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -178,6 +218,8 @@ export default {
   mixins: [columns, global, authAccess],
   data() {
     return {
+      specialities: [],
+      visible: false,
       statusFilter: [
         {
           name: {
@@ -231,6 +273,15 @@ export default {
   },
   methods: {
     moment,
+    currentFreelancer(array) {
+      this.specialities = array.map((item) => {
+        return {
+          ...item,
+          title: item.name_ru,
+        };
+      });
+      this.visible = true;
+    },
     currentStatus(tags) {
       if (!tags.status && tags.end_of_execution) {
         return "Завершенный";

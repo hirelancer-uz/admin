@@ -8,7 +8,7 @@
         <div class="error-img">
           <img src="../assets/images/404-error.png" alt="" />
         </div>
-        <div class="to-home btn btn-primary" @click="$router.push('/services')">Return Home</div>
+        <div class="to-home btn btn-primary" @click="$router.push('/')">Return Home</div>
       </div>
     </div>
   </div>

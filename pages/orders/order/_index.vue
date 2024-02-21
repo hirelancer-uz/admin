@@ -26,7 +26,7 @@
         >
           Заявки
         </a-button>
-        <a-button
+        <!-- <a-button
           tabindex="3"
           class="add-btn add-header-btn btn-primary d-flex align-items-center"
           :type="$route.hash == '#complaints' ? 'primary' : 'default'"
@@ -41,7 +41,7 @@
           @click="$router.push({ hash: 'history' })"
         >
           История чата
-        </a-button>
+        </a-button> -->
       </div>
       <div class="d-flex">
         <a-select v-model="filter" placeholder="Filter" style="min-width: 125px">
@@ -114,6 +114,7 @@
                       </a-select-option>
                     </a-select>
                   </a-form-model-item>
+                  <p class="last_update">Последнее обновление: {{ lastUpdate }}</p>
                   <a-button
                     class="py-3 add-btn btn-primary d-flex justify-content-center align-items-center"
                     style="height: 42px"
@@ -139,12 +140,11 @@
                 align="center"
               >
                 <span
-                  to="/orders/1232/details"
-                  slot="client"
+                  @click="$router.push(`/freelancers/${text?.id}`)"
+                  slot="freelancer"
                   slot-scope="text"
-                  align="center"
                 >
-                  {{ text }}
+                  {{ text?.name }}
                 </span>
                 <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
                 <span
@@ -158,13 +158,17 @@
                   slot="status"
                   slot-scope="tags"
                   class="tags-style"
-                  :class="{
-                    tag_success: tags == 'selected',
-                    tag_rejected: tags == 'notSelected',
-                  }"
+                  :class="
+                    Boolean(tags?.id == order?.selected_request?.id)
+                      ? 'tag_success'
+                      : 'tag_rejected'
+                  "
                 >
-                  <!-- 'new', 'canceled', 'accepted', 'in_process' -->
-                  {{ status[tags] }}
+                  {{
+                    Boolean(tags?.id == order?.selected_request?.id)
+                      ? "Tanlangan"
+                      : "Tanlanmagan"
+                  }}
                 </span>
                 <span slot="btns" slot-scope="text">
                   <!-- <span
@@ -174,19 +178,14 @@
                   @click="$router.push(`/orders/order/${text}`)"
                 >
                 </span> -->
-                  <span
+                  <!-- <span
                     v-if="checkAccess('orders', 'put')"
                     class="action-btn"
                     @click="$router.push(`/orders/order/${text}`)"
                     v-html="editIcon"
                   >
-                  </span>
-                  <span
-                    class="action-btn"
-                    @click="deleteAction(text)"
-                    v-html="deleteIcon"
-                  >
-                  </span>
+                  </span> -->
+                  <span class="action-btn" v-html="deleteIcon"> </span>
                 </span>
               </a-table>
               <div class="d-flex justify-content-between mt-4">
@@ -244,17 +243,7 @@
                   @click="handleComp(text)"
                   >Посмотреть текст</span
                 >
-                <span
-                  slot="status"
-                  slot-scope="tags"
-                  class="tags-style"
-                  :class="{
-                    tag_success: tags == 'selected',
-                    tag_rejected: tags == 'notSelected',
-                  }"
-                >
-                  {{ status[tags] }}
-                </span>
+
                 <span slot="btns" slot-scope="text">
                   <span
                     v-if="checkAccess('orders', 'put')"
@@ -430,7 +419,7 @@ export default {
       editIcon: require("../../../assets/svg/edit.svg?raw"),
       deleteIcon: require("../../../assets/svg/delete.svg?raw"),
 
-      statusValue: "new",
+      statusValue: "1",
       editorOption: {
         // Some Quill options...
         theme: "snow",
@@ -495,16 +484,32 @@ export default {
       },
       statusData: [
         {
-          label: "Ожидание",
-          value: "in_process",
+          label: "В модерации",
+          value: "1",
         },
         {
-          label: "Принятые",
-          value: "accepted",
+          label: "Активный",
+          value: "2",
         },
         {
-          label: "Отмененные",
-          value: "canceled",
+          label: "В процессе",
+          value: "3",
+        },
+        {
+          label: "Ожидаем одобрения клиента",
+          value: "4",
+        },
+        {
+          label: "Завершенный",
+          value: "5",
+        },
+        {
+          label: "Отменено администратором",
+          value: "6",
+        },
+        {
+          label: "Отменено клиентом",
+          value: "7",
         },
       ],
       order: {
@@ -571,6 +576,9 @@ export default {
     };
   },
   computed: {
+    lastUpdate() {
+      return moment(this.order?.updated_at).format("DD.MM.YYYY HH:mm");
+    },
     classObject: function () {
       return {
         "status-process": this.statusValue == "in_process",
@@ -782,6 +790,10 @@ export default {
 </script>
 <style lang="css">
 @import "../../../assets/css/pages/order.css";
+.last_update {
+  margin-top: -12px;
+  margin-bottom: 16px;
+}
 .ant-fullcalendar-fullscreen .ant-fullcalendar-month,
 .ant-fullcalendar-fullscreen .ant-fullcalendar-date {
   height: 70px !important;
