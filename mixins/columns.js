@@ -9,6 +9,7 @@ export default {
           scopedSlots: { customRender: "orderId" },
           className: "column-service",
           fixed: "left",
+          width: "60px",
         },
         {
           title: "Название",

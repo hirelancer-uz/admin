@@ -14,7 +14,7 @@ export const actions = {
     return res;
   },
   async postRegions({}, data) {
-    const res = await this.$axiosInstance.$post(`/api/regions`, data);
+    const res = await this.$axiosInstance.$post(`/api/admin/regions`, data);
     return res;
   },
   async editRegions({}, payload) {
