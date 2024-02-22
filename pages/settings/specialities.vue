@@ -135,8 +135,14 @@
               </a-select>
             </a-form-model-item>
             <a-form-model-item label="Икона" class="form-item mb-3">
-              <a-upload name="file" :multiple="true" @change="handleChange">
-                <a-button> <a-icon type="upload" /> Click to Upload </a-button>
+              <a-upload
+                list-type="picture-card"
+                :file-list="fileList"
+                :remove="($event) => handleRemove($event, item)"
+                :before-upload="handleBeforeUpload"
+                :custom-request="($event) => customRequest($event, item)"
+              >
+                <span v-if="fileList.length == 0"> <a-icon type="upload" /> </span>
               </a-upload>
             </a-form-model-item>
           </a-form-model>
@@ -195,7 +201,7 @@ const columns = [
     key: "popular",
     slots: { title: "customTitle" },
     scopedSlots: { customRender: "popular" },
-    
+
     className: "column-name",
     align: "left",
   },
@@ -268,6 +274,7 @@ export default {
         parent_id: undefined,
       },
       regions: [],
+      fileList: [],
     };
   },
   async mounted() {
@@ -288,8 +295,33 @@ export default {
         this.$message.error(`${info.file.name} file upload failed.`);
       }
     },
+    handleBeforeUpload(file) {
+      return true;
+    },
+    handleRemove(e, name) {
+      this.fileList = [];
+    },
+    customRequest({ onSuccess, onError, file }, name) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const uploadedFile = {
+          uid: file.uid,
+          name: file.name,
+          originFileObj: file,
+          url: reader.result,
+        };
+        this.fileList.push(uploadedFile);
+        onSuccess();
+      };
+      reader.onerror = () => {
+        console.error("Error reading file as binary data");
+        onError(new Error("Error reading file"));
+      };
+      reader.readAsDataURL(file); // Use readAsDataURL to get Base64 data
+    },
     saveData() {
       let formData = new FormData();
+      formData.append("icon", this.fileList.at(-1).originFileObj);
       if (this.form.icon) {
         formData.append("icon", this.form.icon);
       }
@@ -371,6 +403,7 @@ export default {
       }
     },
     emptyData() {
+      this.fileList = [];
       this.form = {
         name_ru: "",
         name_uz: "",
