@@ -9,8 +9,7 @@
         <a-button
           class="add-btn add-header-btn btn-primary d-flex align-items-center"
           type="primary"
-          @click="addCountries"
-          v-if="checkAccess('regions', 'post')"
+          @click="$router.push('/settings/specialities/add')"
         >
           <span v-if="!loadingBtn" class="svg-icon" v-html="addIcon"></span>
           Добавить
@@ -42,20 +41,31 @@
           :loading="loading"
         >
           <span slot="indexId" slot-scope="text">#{{ text?.key }}</span>
+
+          <span slot="icon" slot-scope="text">
+            <img class="table-image" v-if="text" :src="`${imgUrl}${text}`" alt="" />
+
+            <img
+              v-else
+              class="table-image"
+              src="@/assets/images/photo_2023-03-04_13-28-58.jpg"
+              alt=""
+            />
+          </span>
           <span slot="childs" slot-scope="text">
-            <a-tag color="blue" v-for="item in text" :key="item?.id">
+            <a-tag
+              color="blue"
+              v-for="item in text"
+              :key="item?.id"
+              class="cursor-pointer"
+              @click="$router.push(`/settings/specialities/${item?.id}`)"
+            >
               {{ item?.name_ru }}
             </a-tag>
           </span>
 
           <span slot="id" slot-scope="text">
-            <span
-              class="action-btn"
-              v-if="checkAccess('regions', 'put')"
-              v-html="editIcon"
-              @click="editAction(text)"
-            >
-            </span>
+            <span class="action-btn" v-html="editIcon" @click="editAction(text)"> </span>
             <a-popconfirm
               title="Are you sure delete this row?"
               ok-text="Yes"
@@ -171,11 +181,11 @@
 </template>
 
 <script>
-import SearchInput from "../../components/form/Search-input.vue";
-import TitleBlock from "../../components/Title-block.vue";
-import status from "../../mixins/status";
-import global from "../../mixins/global";
-import authAccess from "../../mixins/authAccess";
+import SearchInput from "@/components/form/Search-input.vue";
+import TitleBlock from "@/components/Title-block.vue";
+import status from "@/mixins/status";
+import global from "@/mixins/global";
+import authAccess from "@/mixins/authAccess";
 
 const columns = [
   {
@@ -189,11 +199,22 @@ const columns = [
   },
   {
     title: "Название ",
+    dataIndex: "icon",
+    key: "icon",
+    slots: { title: "customTitle" },
+    className: "column-name",
+    scopedSlots: { customRender: "icon" },
+    align: "left",
+    colSpan: 2,
+    width: "45px",
+  },
+  {
     dataIndex: "name_ru",
     key: "name_ru",
     slots: { title: "customTitle" },
     className: "column-name",
     align: "left",
+    colSpan: 0,
   },
   {
     title: "ПОПУЛЯРНЫЙ ",
@@ -253,9 +274,9 @@ export default {
         //   index: "en",
         // },
       ],
-      editIcon: require("../../assets/svg/edit.svg?raw"),
-      deleteIcon: require("../../assets/svg/delete.svg?raw"),
-      addIcon: require("../../assets/svg/add-icon.svg?raw"),
+      editIcon: require("@/assets/svg/edit.svg?raw"),
+      deleteIcon: require("@/assets/svg/delete.svg?raw"),
+      addIcon: require("@/assets/svg/add-icon.svg?raw"),
       loading: false,
       columns,
       specialities: [],
@@ -280,6 +301,14 @@ export default {
   async mounted() {
     this.getFirstData("__GET_SPECIAL");
     // this.checkAllActions("regions");
+  },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL;
+    },
+    imgUrl() {
+      return this.baseUrl + "/storage/";
+    },
   },
   methods: {
     handleChange(info) {
@@ -341,9 +370,10 @@ export default {
     },
 
     editAction(id) {
-      this.title = "Изменить";
-      this.editId = id;
-      this.__GET_SPECIAL_BY_ID(id);
+      this.$router.push(`/settings/specialities/${id}`);
+      // this.title = "Изменить";
+      // this.editId = id;
+      // this.__GET_SPECIAL_BY_ID(id);
     },
     deleteAction(id) {
       this.__DELETE_GLOBAL(

@@ -219,10 +219,7 @@ export default {
     };
   },
   async mounted() {
-    this.getFirstData(
-      `/settings/translations-edit/${this.$route.params.index}`,
-      "__GET_TRANSLATIONS"
-    );
+    this.getFirstData("__GET_TRANSLATIONS");
   },
   methods: {
     changeSearch(val) {
@@ -269,6 +266,7 @@ export default {
       const data = await this.$store.dispatch("fetchTranslations/getTranslateGruop", {
         ...this.$route.query,
       });
+      console.log(data);
       this.loading = false;
       const pageIndex = this.indexPage(
         data?.groups?.current_page,

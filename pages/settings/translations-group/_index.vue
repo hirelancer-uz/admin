@@ -365,10 +365,7 @@ export default {
     };
   },
   async mounted() {
-    this.getFirstData(
-      `/settings/translations-group/${this.$route.params.index}`,
-      "__GET_TRANSLATIONS"
-    );
+    this.getFirstData("__GET_TRANSLATIONS");
     this.__GET_TRANSLATE_GROUPS();
   },
   methods: {

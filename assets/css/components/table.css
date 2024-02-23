@@ -69,6 +69,10 @@
   background: #c9f7f5;
   color: #18b3bd;
 }
+.tag_mode {
+  background: rgba(164, 171, 182, 0.3);
+  color: #808080;
+}
 .tag_inProgress {
   background: #fff4de;
   color: #ffa909;
@@ -85,14 +89,33 @@
   line-height: 0.6px;
   border-radius: 5.46px;
   height: 24px;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
   font-family: "TT Interfaces";
   font-size: 11.7px;
   font-weight: 500;
   padding: 0 9.75px;
+  white-space: nowrap;
+}
+.table-image {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+
+  background-color: #f5f8fa;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  border-radius: 6.175px;
+  background: #ffffff;
+  border: 1px solid #ebeef5;
 }
 @media (max-width: 1440px) {
+  .table-image {
+    width: 40px;
+    height: 40px;
+  }
   .column-service,
   .column-actions,
   .column-subservice {

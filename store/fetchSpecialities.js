@@ -18,8 +18,8 @@ export const actions = {
     return res;
   },
   async editSpecialities({}, payload) {
-    const res = await this.$axiosInstance.$post(
-      `/specialities/${payload.id}`,
+    const res = await this.$axiosInstance.$put(
+      `/api/admin/specialities/${payload.id}`,
       payload.data
     );
     return res;

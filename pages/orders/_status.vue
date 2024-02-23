@@ -9,12 +9,12 @@
     </TitleBlock>
     <TitleBlock v-else title="Все заказы" :breadbrumb="['Заказы']" lastLink="Все заказы">
     </TitleBlock>
-    <div class="container_xl app-container pb-4 pt-5">
+    <div class="container_orders app-container pb-4 pt-5">
       <div class="card_block main-table px-4 pb-3">
         <OrderBtns />
       </div>
     </div>
-    <div class="container_xl app-container pb-4">
+    <div class="container_orders app-container pb-4">
       <div class="card_block main-table px-4 py-3">
         <div class="d-flex justify-content-between align-items-center card_header">
           <div class="oroder-filter-grid w-100 align-items-center">
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <div class="container_xl app-container main-table">
+    <div class="container_orders app-container main-table">
       <div class="card_block main-table px-4 py-4">
         <a-table
           :columns="columnsOrders"
@@ -119,10 +119,11 @@
             slot-scope="tags"
             class="tags-style"
             :class="{
-              tag_success: !tags.status && tags.end_of_execution,
-              tag_inProgress: !tags.status && !tags.end_of_execution,
-              tag_approved: tags.status == 1 && !tags.end_of_execution,
-              tag_rejected: tags.status == -1 && !tags.end_of_execution,
+              tag_success: tags.status == 4,
+              tag_inProgress: tags.status == 2 || tags.status == 3,
+              tag_approved: tags.status == 1,
+              tag_rejected: tags.status == 5 || tags.status == 6,
+              tag_mode: tags.status == 0,
             }"
           >
             {{ currentStatus(tags) }}
@@ -189,12 +190,20 @@
         <a-list item-layout="horizontal" :data-source="specialities">
           <a-list-item slot="renderItem" slot-scope="item, index">
             <a-list-item-meta>
-              <a slot="id" href="https://www.antdv.com/">{{ item.id }}</a>
-              <a slot="title" href="https://www.antdv.com/">{{ item.name_ru }}</a>
-              <a-avatar v-if="item.icon" slot="avatar" :src="`${imgUrl}${item.icon}`" />
+              <!-- <a slot="id" href="https://www.antdv.com/">{{ item.id }}</a> -->
+              <nuxt-link slot="title" :to="`/settings/specialities/${item.id}`">{{
+                item.name_ru
+              }}</nuxt-link>
+              <a-avatar
+                shape="square"
+                v-if="item.icon"
+                slot="avatar"
+                :src="`${imgUrl}${item.icon}`"
+              />
               <a-avatar
                 v-else
                 slot="avatar"
+                shape="square"
                 src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               />
             </a-list-item-meta>
@@ -271,6 +280,14 @@ export default {
     this.getFirstData("__GET_ORDERS");
     this.checkAllActions("orders");
   },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL;
+    },
+    imgUrl() {
+      return this.baseUrl + "/storage/";
+    },
+  },
   methods: {
     moment,
     currentFreelancer(array) {
@@ -283,22 +300,24 @@ export default {
       this.visible = true;
     },
     currentStatus(tags) {
-      if (!tags.status && tags.end_of_execution) {
+      if (tags.status == 4) {
         return "Завершенный";
       }
-      if (!tags.status && !tags.end_of_execution) {
+      if (tags.status == 0) {
         return "В модерации";
       }
-      if (tags.status == -1 && !tags.end_of_execution) {
+      if (tags.status == 2 || tags.status == 3) {
+        return "В процессе";
+      }
+      if (tags.status == 5) {
         return "Отмена - клиент";
       }
-      if (tags.status == 1 && !tags.end_of_execution) {
+      if (tags.status == 6) {
+        return "Отмена - модератор";
+      }
+      if (tags.status == 1) {
         return "Aктивный";
       }
-      // tag_success =  !tags.status && tags.end_of_execution,
-      //       tag_inProgress =  !tags.status && !tags.end_of_execution,
-      //       tag_approved =  tags.status && !tags.end_of_execution,
-      //       tag_rejected =  tags.status == -1,
     },
     deleteAction(id) {},
     async onChange(date, dateString) {

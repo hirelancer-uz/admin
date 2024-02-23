@@ -108,8 +108,16 @@
                     :class="classObject"
                     label="Статус"
                   >
-                    <a-select v-model="statusValue" placeholder="Tags Mode">
-                      <a-select-option v-for="elem in statusData" :key="elem.value">
+                    <a-select
+                      v-model="statusValue"
+                      placeholder="Tags Mode"
+                      :disabled="statusValue > 1"
+                    >
+                      <a-select-option
+                        v-for="elem in statusData"
+                        :key="elem.value"
+                        :disabled="elem.value != 1"
+                      >
                         {{ elem.label }}
                       </a-select-option>
                     </a-select>
@@ -419,7 +427,7 @@ export default {
       editIcon: require("../../../assets/svg/edit.svg?raw"),
       deleteIcon: require("../../../assets/svg/delete.svg?raw"),
 
-      statusValue: "1",
+      statusValue: 1,
       editorOption: {
         // Some Quill options...
         theme: "snow",
@@ -485,31 +493,31 @@ export default {
       statusData: [
         {
           label: "В модерации",
-          value: "1",
+          value: 0,
         },
         {
           label: "Активный",
-          value: "2",
+          value: 1,
         },
         {
           label: "В процессе",
-          value: "3",
+          value: 2,
         },
         {
           label: "Ожидаем одобрения клиента",
-          value: "4",
+          value: 3,
         },
         {
           label: "Завершенный",
-          value: "5",
+          value: 4,
         },
         {
           label: "Отменено администратором",
-          value: "6",
+          value: 5,
         },
         {
           label: "Отменено клиентом",
-          value: "7",
+          value: 6,
         },
       ],
       order: {
@@ -694,7 +702,7 @@ export default {
         });
     },
     onSubmit() {
-      this.__EDIT_CATEGORIES({ status: this.statusValue });
+      this.__EDIT_ORDER_STATUS({ status: this.statusValue });
     },
     handleOk() {
       this.visible = false;
@@ -711,14 +719,13 @@ export default {
         }
       });
     },
-    async __EDIT_CATEGORIES(res) {
+    async __EDIT_ORDER_STATUS(res) {
       try {
         await this.$store.dispatch("fetchOrders/editOrders", {
           id: this.$route.params.index,
           data: res,
         });
         this.$store.dispatch("getOrders");
-        this.$router.go(-1);
         this.notification("success", "success", "Заказ успешно изменена");
       } catch (e) {
         this.statusFunc(e);
@@ -748,7 +755,7 @@ export default {
           this.$route.params.index
         );
         this.order = data?.content;
-
+        this.statusValue = this.order.status;
         this.spinning = false;
       } catch (e) {
         console.log(e);
