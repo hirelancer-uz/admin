@@ -22,11 +22,11 @@
           <div class="prodduct-list-header-grid w-100 align-items-center">
             <SearchInput
               placeholder="Поиск"
-              @changeSearch="changeSearch($event, '/regions', '__GET_SPECIAL')"
+              @changeSearch="changeSearch($event, '__GET_SPECIAL')"
             />
             <div></div>
             <a-button
-              @click="clearQuery('/regions', '__GET_SPECIAL')"
+              @click="clearQuery('__GET_SPECIAL')"
               type="primary"
               class="d-flex align-items-center justify-content-center"
               style="height: 38px"
@@ -83,7 +83,7 @@
             class="table-page-size"
             style="width: 120px"
             @change="
-              ($event) => changePageSizeGlobal($event, '/regions', '__GET_SPECIAL')
+              ($event) => changePageSizeGlobal($event, '__GET_SPECIAL')
             "
           >
             <a-select-option

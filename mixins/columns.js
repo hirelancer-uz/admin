@@ -146,11 +146,11 @@ export default {
         },
         {
           title: "Рейтинг",
-          dataIndex: "rating",
-          scopedSlots: { customRender: "rating" },
+          dataIndex: "stars",
+          scopedSlots: { customRender: "stars" },
           className: "column-name",
           customRender: (text) => Math.ceil(text),
-          key: "rating",
+          key: "stars",
         },
         {
           title: "Актив",

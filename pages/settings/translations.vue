@@ -45,13 +45,11 @@
             <SearchInput
               placeholder="Поиск
             "
-              @changeSearch="
-                changeSearch($event, '/settings/translations', '__GET_TRANSLATIONS')
-              "
+              @changeSearch="changeSearch($event, '__GET_TRANSLATIONS')"
             />
             <div></div>
             <a-button
-              @click="clearQuery('/settings/translations', '__GET_TRANSLATIONS')"
+              @click="clearQuery('__GET_TRANSLATIONS')"
               type="primary"
               class="d-flex align-items-center justify-content-center"
               style="height: 38px"
@@ -337,7 +335,7 @@ export default {
     };
   },
   async mounted() {
-    this.getFirstData("/settings/translations", "__GET_TRANSLATIONS");
+    this.getFirstData("__GET_TRANSLATIONS");
     this.__GET_TRANSLATE_GROUPS();
     this.checkAllActions("translates");
   },
