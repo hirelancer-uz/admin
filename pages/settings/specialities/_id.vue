@@ -126,6 +126,7 @@
                     :before-upload="handleBeforeUpload"
                     @preview="previewVisible = true"
                     :custom-request="($event) => customRequest($event, item)"
+                    accept=".jpg, .png, .jpeg, .webp"
                   >
                     <div v-if="fileList.length < 1">
                       <a-icon type="plus" />

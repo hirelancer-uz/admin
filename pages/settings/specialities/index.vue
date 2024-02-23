@@ -155,6 +155,7 @@
                 :remove="($event) => handleRemove($event, item)"
                 :before-upload="handleBeforeUpload"
                 :custom-request="($event) => customRequest($event, item)"
+                accept=".jpg, .png, .jpeg, .webp"
               >
                 <span v-if="fileList.length == 0"> <a-icon type="upload" /> </span>
               </a-upload>
