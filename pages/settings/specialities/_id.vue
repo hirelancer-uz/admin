@@ -279,6 +279,7 @@ export default {
             url: this.imgUrl + data?.content?.icon,
           },
         ];
+        this.previewImage = this.imgUrl + data?.content?.icon;
       } catch (e) {
         console.log(e);
         this.statusFunc(e);

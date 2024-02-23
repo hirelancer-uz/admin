@@ -125,10 +125,10 @@
                   <p class="last_update">Последнее обновление: {{ lastUpdate }}</p>
                   <a-button
                     class="py-3 add-btn btn-primary d-flex justify-content-center align-items-center"
+                    :class="{ disabledBtn: order?.status != 0 }"
                     style="height: 42px"
                     type="primary"
                     @click="onSubmit"
-                    v-if="checkAccess('orders', 'put')"
                   >
                     Изменить статус
                   </a-button>

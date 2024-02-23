@@ -41,6 +41,12 @@
           :loading="loading"
         >
           <span slot="indexId" slot-scope="text">#{{ text?.key }}</span>
+          <span
+            slot="name"
+            slot-scope="text"
+            @click="$router.push(`/settings/specialities/${text?.id}`)"
+            >{{ text?.name_ru }}</span
+          >
 
           <span slot="icon" slot-scope="text">
             <img class="table-image" v-if="text" :src="`${imgUrl}${text}`" alt="" />
@@ -82,9 +88,7 @@
             v-model="params.pageSize"
             class="table-page-size"
             style="width: 120px"
-            @change="
-              ($event) => changePageSizeGlobal($event, '__GET_SPECIAL')
-            "
+            @change="($event) => changePageSizeGlobal($event, '__GET_SPECIAL')"
           >
             <a-select-option
               v-for="item in pageSizes"
@@ -209,10 +213,9 @@ const columns = [
     width: "45px",
   },
   {
-    dataIndex: "name_ru",
-    key: "name_ru",
     slots: { title: "customTitle" },
-    className: "column-name",
+    className: "column-name cursor-pointer",
+    scopedSlots: { customRender: "name" },
     align: "left",
     colSpan: 0,
   },

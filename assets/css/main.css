@@ -94,3 +94,7 @@ ul {
 .cursor-pointer {
   cursor: pointer;
 }
+.disabledBtn {
+  pointer-events: none;
+  opacity: 0.5;
+}

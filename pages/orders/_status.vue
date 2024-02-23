@@ -143,8 +143,8 @@
               v-html="eyeIcon"
             >
             </span>
-            <span class="action-btn" @click="deleteAction(text)" v-html="deleteIcon">
-            </span>
+            <!-- <span class="action-btn" @click="deleteAction(text)" v-html="deleteIcon">
+            </span> -->
           </span>
         </a-table>
         <div class="d-flex justify-content-between mt-4">
