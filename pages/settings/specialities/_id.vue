@@ -230,13 +230,11 @@ export default {
   methods: {
     onSubmit() {
       let formData = new FormData();
-      formData.append("icon", this.fileList.at(-1).originFileObj);
-      if (this.form.icon) {
-        formData.append("icon", this.form.icon);
+      if (this.fileList.at(-1).originFileObj) {
+        formData.append("icon", this.fileList.at(-1).originFileObj);
+        // formData.append("icon", this.form.icon);
       }
-      if (this.editId) {
-        formData.append("_method", "PUT");
-      }
+      formData.append("_method", "PUT");
       formData.append("name_ru", this.form.name_ru);
       formData.append("name_uz", this.form.name_uz);
       formData.append("parent_id", this.form.parent_id ? this.form.parent_id : "");
@@ -254,9 +252,9 @@ export default {
           id: this.$route.params.id,
           data: res,
         });
-        this.handleOk();
         this.__GET_SPECIAL();
         this.notification("success", "success", "Успешно изменена");
+        this.$router.go(-1);
       } catch (e) {
         this.statusFunc(e);
       }
@@ -271,6 +269,7 @@ export default {
           this.form[elem] = data?.content[elem];
         });
         this.form.icon = null;
+        this.form.parent_id = data?.content?.parent?.id;
         this.fileList = [
           {
             uid: "-1",

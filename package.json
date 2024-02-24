@@ -23,6 +23,7 @@
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
     "vue-the-mask": "^0.11.1",
-    "vue-verification-code-input": "^1.0.0"
+    "vue-verification-code-input": "^1.0.0",
+    "vuedraggable": "^2.24.3"
   }
 }

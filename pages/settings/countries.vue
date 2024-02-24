@@ -318,7 +318,6 @@ export default {
 
         this.__GET_COUNTRIES();
         this.notification("success", "success", "Успешно изменена");
-        this.$router.push("/countries");
       } catch (e) {
         this.statusFunc(e);
       }

@@ -29,7 +29,7 @@
             mode="inline"
             style="background: #1e1e2d"
             :class="{ 'menu-collabsed': collapsed }"
-            :default-selected-keys="['1']"
+            :default-selected-keys="['5']"
             :default-open-keys="defaultOpens"
             :open-keys.sync="openKeys"
             :inline-collapsed="collapsed"
@@ -115,11 +115,7 @@
                 </nuxt-link>
               </span>
             </a-menu-item>
-            <a-sub-menu
-              :key="menu.sub"
-              style="color: #9d9da6"
-              v-for="menu in menuData.filter((elem) => elem.menuItems.length > 1)"
-            >
+            <a-sub-menu :key="menu.sub" style="color: #9d9da6" v-for="menu in menuData">
               <span slot="title">
                 <span v-html="menu.icon"></span
                 ><span v-if="!collapsed">{{ menu.title }}</span></span
@@ -227,6 +223,21 @@ export default {
 
     this.menuData = [
       {
+        title: "Cправочник",
+        sub: "7",
+        icon: require("../assets/svg/derictory.svg?raw"),
+        menuItems: [
+          {
+            key: "71",
+            name: "Причины отказа",
+            to: "/directory/reasons",
+            add: "directory-reasons",
+            edit: "directory-reasons",
+            show: true,
+          },
+        ],
+      },
+      {
         title: "Настройки сайта",
         sub: "6",
         icon: require("../assets/svg/settings.svg?raw"),
@@ -306,17 +317,13 @@ export default {
       }
     },
     checkDefaultOpen() {
-      if (this.$route.name.includes("orders")) {
-        this.openKeys = ["2"];
-      } else if (this.$route.name.includes("settings")) {
-        this.openKeys = ["5"];
-      } else if (this.$route.name.includes("index")) {
-        this.openKeys = ["3"];
-      } else if (this.$route.name.includes("sellers")) {
-        this.openKeys = ["4"];
-      } else {
-        this.openKeys = ["3"];
+      if (this.$route.name.includes("settings")) {
+        this.openKeys = ["6"];
       }
+      if (this.$route.name.includes("directory")) {
+        this.openKeys = ["7"];
+      }
+      console.log(this.openKeys);
     },
     d(item) {
       switch (item.index) {

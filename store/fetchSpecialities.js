@@ -14,18 +14,23 @@ export const actions = {
     return res;
   },
   async postSpecialities({}, data) {
-    const res = await this.$axiosInstance.$post(`/api/admin/specialities`, data);
+    const res = await this.$axiosInstance.$post(
+      `/api/admin/specialities`,
+      data
+    );
     return res;
   },
   async editSpecialities({}, payload) {
-    const res = await this.$axiosInstance.$put(
+    const res = await this.$axiosInstance.$post(
       `/api/admin/specialities/${payload.id}`,
       payload.data
     );
     return res;
   },
   async deleteSpecialities({}, id) {
-    const res = await this.$axiosInstance.$delete(`/api/admin/specialities/${id}`);
+    const res = await this.$axiosInstance.$delete(
+      `/api/admin/specialities/${id}`
+    );
     return res;
   },
 };
