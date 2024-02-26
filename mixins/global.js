@@ -53,7 +53,6 @@ export default {
       this.value = undefined;
       const query = { per_page: this.params.pageSize, page: 1 };
       this.current = 1;
-      // delete query.search;
       if (Object.keys(this.$route.query).length > 2) {
         await this.$router.replace({
           path: this.$route.path,

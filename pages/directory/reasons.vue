@@ -25,6 +25,7 @@
     <div class="container_xl app-container pb-5 pt-5">
       <div class="card_block main-table px-4 pb-4">
         <div class="d-flex justify-content-between align-items-center card_header">
+        
           <div class="prodduct-list-header-grid w-100 align-items-center">
             <SearchInput
               placeholder="Поиск"
