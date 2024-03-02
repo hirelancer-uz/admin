@@ -386,7 +386,7 @@ export default {
   },
   data() {
     return {
-      activeStatus: [1, 4, 5],
+      activeStatus: [0, 1, 4, 5],
       filter: undefined,
       loading: false,
       data: [
