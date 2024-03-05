@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="">
     <TitleBlock title="Переводы" :breadbrumb="['Настройки сайта']" lastLink="Переводы">
       <div class="d-flex">
@@ -103,9 +103,9 @@
           <span slot="valRu" slot-scope="text">
             {{ text?.val?.ru ? text?.val?.ru : "-----" }}
           </span>
-          <span slot="valEn" slot-scope="text">
-            {{ text?.val?.en ? text?.val?.en : "-----" }}
-          </span>
+<!--          <span slot="valEn" slot-scope="text">-->
+<!--            {{ text?.val?.en ? text?.val?.en : "-&#45;&#45;&#45;&#45;" }}-->
+<!--          </span>-->
           <span slot="valUz" slot-scope="text">
             {{ text?.val?.uz ? text?.val?.uz : "-----" }}
           </span>
@@ -222,9 +222,9 @@
             <a-form-model-item class="form-item mb-3" label="Значение(ru)" prop="val.ru">
               <a-input v-model="formTranlate.val.ru" placeholder="Значение(ru)..." />
             </a-form-model-item>
-            <a-form-model-item class="form-item mb-3" label="Значение(en)">
-              <a-input v-model="formTranlate.val.en" placeholder="Значение(en)..." />
-            </a-form-model-item>
+<!--            <a-form-model-item class="form-item mb-3" label="Значение(en)">-->
+<!--              <a-input v-model="formTranlate.val.en" placeholder="Значение(en)..." />-->
+<!--            </a-form-model-item>-->
             <a-form-model-item class="form-item mb-3" label="Значение(uz)">
               <a-input v-model="formTranlate.val.uz" placeholder="Значение(uz)..." />
             </a-form-model-item>
@@ -290,13 +290,13 @@ const columns = [
     align: "left",
     width: "30%",
   },
-  {
-    title: "ЗНАЧЕНИЕ(EN)",
-
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "valEn" },
-    className: "column-name",
-  },
+  // {
+  //   title: "ЗНАЧЕНИЕ(EN)",
+  //
+  //   slots: { title: "customTitle" },
+  //   scopedSlots: { customRender: "valEn" },
+  //   className: "column-name",
+  // },
   {
     title: "ЗНАЧЕНИЕ(UZ)",
 

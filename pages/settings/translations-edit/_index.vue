@@ -65,9 +65,9 @@
           <span slot="valRu" slot-scope="text">
             <a-input v-model="text.val.ru" placeholder="ru..."></a-input>
           </span>
-          <span slot="valEn" slot-scope="text">
-            <a-input v-model="text.val.en" placeholder="en..."></a-input>
-          </span>
+<!--          <span slot="valEn" slot-scope="text">-->
+<!--            <a-input v-model="text.val.en" placeholder="en..."></a-input>-->
+<!--          </span>-->
           <span slot="valUz" slot-scope="text">
             <a-input v-model="text.val.uz" placeholder="uz..."></a-input>
           </span>
@@ -158,13 +158,13 @@ const columns = [
     align: "left",
     width: "30%",
   },
-  {
-    title: "ЗНАЧЕНИЕ(EN)",
-
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "valEn" },
-    className: "column-name",
-  },
+  // {
+  //   title: "ЗНАЧЕНИЕ(EN)",
+  //
+  //   slots: { title: "customTitle" },
+  //   scopedSlots: { customRender: "valEn" },
+  //   className: "column-name",
+  // },
   {
     title: "ЗНАЧЕНИЕ(UZ)",
 
