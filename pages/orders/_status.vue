@@ -1,17 +1,17 @@
 <template lang="html">
   <div class="all-orders pb-5">
     <TitleBlock
-      v-if="orderStatus[$route.params.status]"
-      :title="orderStatus[$route.params.status]"
-      :breadbrumb="['Заказы']"
-      :lastLink="orderStatus[$route.params.status]"
+        v-if="orderStatus[$route.params.status]"
+        :title="orderStatus[$route.params.status]"
+        :breadbrumb="['Заказы']"
+        :lastLink="orderStatus[$route.params.status]"
     >
     </TitleBlock>
     <TitleBlock v-else title="Все заказы" :breadbrumb="['Заказы']" lastLink="Все заказы">
     </TitleBlock>
     <div class="container_orders app-container pb-4 pt-5">
       <div class="card_block main-table px-4 pb-3">
-        <OrderBtns />
+        <OrderBtns/>
       </div>
     </div>
     <div class="container_orders app-container pb-4">
@@ -19,19 +19,19 @@
         <div class="d-flex justify-content-between align-items-center card_header">
           <div class="oroder-filter-grid w-100 align-items-center">
             <SearchInput
-              placeholder="Поиск"
-              @changeSearch="($event) => changeSearch($event, '__GET_ORDERS')"
+                placeholder="Поиск"
+                @changeSearch="($event) => changeSearch($event, '__GET_ORDERS')"
             />
             <div class="input status-select w-100">
               <a-form-model-item
-                class="form-item mb-0"
-                :class="{ 'select-placeholder': !value }"
+                  class="form-item mb-0"
+                  :class="{ 'select-placeholder': !value }"
               >
                 <a-select v-model="value" placeholder="Статус">
                   <a-select-option
-                    v-for="filterItem in statusFilter"
-                    :key="filterItem?.id"
-                    placeholder="good"
+                      v-for="filterItem in statusFilter"
+                      :key="filterItem?.id"
+                      placeholder="good"
                   >
                     {{ filterItem?.name?.ru }}
                   </a-select-option>
@@ -40,10 +40,10 @@
             </div>
             <div class="input status-select w-100">
               <a-form-model-item
-                class="form-date mb-0"
-                :class="{ 'select-placeholder': !value }"
+                  class="form-date mb-0"
+                  :class="{ 'select-placeholder': !value }"
               >
-                <a-range-picker @change="onChange" />
+                <a-range-picker @change="onChange"/>
                 <!-- <a-select v-model="value" placeholder="Дата">
                   <a-select-option
                     v-for="filterItem in statusFilter"
@@ -57,14 +57,14 @@
             </div>
             <div class="input status-select w-100">
               <a-form-model-item
-                class="form-item mb-0"
-                :class="{ 'select-placeholder': !value }"
+                  class="form-item mb-0"
+                  :class="{ 'select-placeholder': !value }"
               >
                 <a-select v-model="value" placeholder="Категория">
                   <a-select-option
-                    v-for="filterItem in statusFilter"
-                    :key="filterItem?.id"
-                    placeholder="good"
+                      v-for="filterItem in statusFilter"
+                      :key="filterItem?.id"
+                      placeholder="good"
                   >
                     {{ filterItem?.name?.ru }}
                   </a-select-option>
@@ -72,13 +72,14 @@
               </a-form-model-item>
             </div>
             <a-button
-              type="primary"
-              class="d-flex align-items-center justify-content-center"
-              @click="clearQuery('__GET_ORDERS')"
-              style="height: 38px"
+                type="primary"
+                class="d-flex align-items-center justify-content-center"
+                @click="clearQuery('__GET_ORDERS')"
+                style="height: 38px"
             >
               <a-icon type="reload"
-            /></a-button>
+              />
+            </a-button>
           </div>
         </div>
       </div>
@@ -87,27 +88,28 @@
     <div class="container_orders app-container main-table">
       <div class="card_block main-table px-4 py-4">
         <a-table
-          :columns="columnsOrders"
-          :data-source="orders"
-          :pagination="false"
-          :loading="loading"
-          align="center"
-          :scroll="{ x: 1400 }"
+            :columns="columnsOrders"
+            :data-source="orders"
+            :pagination="false"
+            :loading="loading"
+            align="center"
+            :scroll="{ x: 1400 }"
         >
-          <span
-            @click="$router.push(`/orders/order/${text?.id}`)"
-            slot="name"
-            slot-scope="text"
-          >
-            {{ text?.name }}
-          </span>
+          <nuxt-link
+              class="title-link"
+              :to="`/orders/order/${text?.id}`"
+              slot="name"
+              slot-scope="text"
+          >{{ text?.name }}
+          </nuxt-link>
+
           <span slot="specialities" slot-scope="text">
             <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
             <a-tag
-              color="blue"
-              v-else
-              style="cursor: pointer"
-              @click="currentFreelancer(text)"
+                color="blue"
+                v-else
+                style="cursor: pointer"
+                @click="currentFreelancer(text)"
             >
               {{ text?.length }}
             </a-tag>
@@ -115,10 +117,10 @@
           <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
 
           <span
-            slot="status"
-            slot-scope="tags"
-            class="tags-style"
-            :class="{
+              slot="status"
+              slot-scope="tags"
+              class="tags-style"
+              :class="{
               tag_success: tags.status == 4,
               tag_inProgress: tags.status == 2 || tags.status == 3,
               tag_approved: tags.status == 1,
@@ -137,10 +139,10 @@
               >
               </span> -->
             <span
-              v-if="checkAccess('orders', 'put')"
-              class="action-btn"
-              @click="$router.push(`/orders/order/${text}`)"
-              v-html="eyeIcon"
+                v-if="checkAccess('orders', 'put')"
+                class="action-btn"
+                @click="$router.push(`/orders/order/${text}`)"
+                v-html="eyeIcon"
             >
             </span>
             <!-- <span class="action-btn" @click="deleteAction(text)" v-html="deleteIcon">
@@ -149,10 +151,10 @@
         </a-table>
         <div class="d-flex justify-content-between mt-4">
           <a-select
-            v-model="params.pageSize"
-            class="table-page-size"
-            style="width: 120px"
-            @change="
+              v-model="params.pageSize"
+              class="table-page-size"
+              style="width: 120px"
+              @change="
               ($event) =>
                 changePageSizeGlobal(
                   $event,
@@ -162,29 +164,29 @@
             "
           >
             <a-select-option
-              v-for="item in pageSizes"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              >{{ item.label }}
+                v-for="item in pageSizes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            >{{ item.label }}
             </a-select-option>
           </a-select>
           <a-pagination
-            class="table-pagination"
-            :simple="false"
-            v-model.number="current"
-            :total="totalPage"
-            :page-size.sync="params.pageSize"
+              class="table-pagination"
+              :simple="false"
+              v-model.number="current"
+              :total="totalPage"
+              :page-size.sync="params.pageSize"
           />
         </div>
       </div>
     </div>
     <a-modal
-      v-model="visible"
-      class="text-modal"
-      centered
-      :title="'Специальности'"
-      width="720px"
+        v-model="visible"
+        class="text-modal"
+        centered
+        :title="'Специальности'"
+        width="720px"
     >
       <div class="d-flex flex-column">
         <a-list item-layout="horizontal" :data-source="specialities">
@@ -192,19 +194,20 @@
             <a-list-item-meta>
               <!-- <a slot="id" href="https://www.antdv.com/">{{ item.id }}</a> -->
               <nuxt-link slot="title" :to="`/settings/specialities/${item.id}`">{{
-                item.name_ru
-              }}</nuxt-link>
+                  item.name_ru
+                }}
+              </nuxt-link>
               <a-avatar
-                shape="square"
-                v-if="item.icon"
-                slot="avatar"
-                :src="`${imgUrl}${item.icon}`"
+                  shape="square"
+                  v-if="item.icon"
+                  slot="avatar"
+                  :src="`${imgUrl}${item.icon}`"
               />
               <a-avatar
-                v-else
-                slot="avatar"
-                shape="square"
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  v-else
+                  slot="avatar"
+                  shape="square"
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
               />
             </a-list-item-meta>
           </a-list-item>
@@ -319,7 +322,8 @@ export default {
         return "Aктивный";
       }
     },
-    deleteAction(id) {},
+    deleteAction(id) {
+    },
     async onChange(date, dateString) {
       let params = {
         date_begin: dateString[0],
@@ -327,13 +331,13 @@ export default {
       };
       await this.$router.replace({
         path: this.$route.path,
-        query: { ...this.$route.query, page: 1, ...params },
+        query: {...this.$route.query, page: 1, ...params},
       });
       this.__GET_ORDERS();
     },
     async __GET_ORDERS() {
       this.loading = true;
-      let params = { ...this.$route.query };
+      let params = {...this.$route.query};
       if (this.orderStatus[this.$route.params.status]) {
         params.status = this.$route.params.status;
       } else {
@@ -365,13 +369,13 @@ export default {
         if (this.$route.query?.service != val)
           await this.$router.replace({
             path: this.$route.path,
-            query: { ...this.$route.query, service: val },
+            query: {...this.$route.query, service: val},
           });
         if (val == this.$route.query.service) this.__GET_ORDERS();
       }
     },
   },
-  components: { TitleBlock, SearchInput, OrderBtns },
+  components: {TitleBlock, SearchInput, OrderBtns},
 };
 </script>
 <style lang="css">

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="all-orders">
-    <TitleBlock title="Фрилансеры"> </TitleBlock>
+    <TitleBlock title="Фрилансеры"></TitleBlock>
 
     <div class="container_xl app-container pb-4 pt-5">
       <div class="card_block main-table px-4 py-3">
@@ -51,7 +51,8 @@
               style="height: 38px"
             >
               <a-icon type="reload"
-            /></a-button>
+              />
+            </a-button>
           </div>
         </div>
       </div>
@@ -66,13 +67,15 @@
           :loading="loading"
           align="center"
         >
-      
+
           <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
-          <span
-            @click="$router.push(`/freelancers/${text?.id}`)"
+          <nuxt-link
+            class="title-link"
+            :to="`/freelancers/${text?.id}`"
             slot="name"
             slot-scope="text"
-            >{{ text?.name }}</span
+          >{{ text?.name }}
+          </nuxt-link
           >
 
           <span
@@ -133,7 +136,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-              >{{ item.label }}
+            >{{ item.label }}
             </a-select-option>
           </a-select>
           <a-pagination
@@ -159,7 +162,7 @@
             <a-list-item-meta>
               <a slot="id" href="https://www.antdv.com/">{{ item.id }}</a>
               <a slot="title" href="https://www.antdv.com/">{{ item.name_ru }}</a>
-              <a-avatar v-if="item.icon" slot="avatar" :src="`${imgUrl}${item.icon}`" />
+              <a-avatar v-if="item.icon" slot="avatar" :src="`${imgUrl}${item.icon}`"/>
               <a-avatar
                 v-else
                 slot="avatar"
@@ -263,7 +266,8 @@ export default {
       });
       this.visible = true;
     },
-    deleteAction(id) {},
+    deleteAction(id) {
+    },
     clearFilterPage() {
       this.value = undefined;
       this.filter = {
@@ -309,7 +313,7 @@ export default {
       if (this.$route.query?.online != val)
         await this.$router.replace({
           path: this.$route.path,
-          query: { ...this.$route.query, online: val },
+          query: {...this.$route.query, online: val},
         });
       if (val == this.$route.query.online) this.__GET_ORDERS();
     },
@@ -317,7 +321,7 @@ export default {
       if (this.$route.query?.region != val)
         await this.$router.replace({
           path: this.$route.path,
-          query: { ...this.$route.query, region: val },
+          query: {...this.$route.query, region: val},
         });
       if (val == this.$route.query.region) this.__GET_ORDERS();
     },
@@ -326,17 +330,18 @@ export default {
         if (this.$route.query?.service != val)
           await this.$router.replace({
             path: this.$route.path,
-            query: { ...this.$route.query, service: val },
+            query: {...this.$route.query, service: val},
           });
         if (val == this.$route.query.service) this.__GET_ORDERS();
       }
     },
   },
-  components: { TitleBlock, SearchInput, OrderBtns },
+  components: {TitleBlock, SearchInput, OrderBtns},
 };
 </script>
 <style lang="css">
 @import "@/assets/css/pages/order.css";
+
 .text-modal .ant-modal-footer {
   display: none;
 }

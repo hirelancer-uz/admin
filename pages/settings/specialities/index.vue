@@ -41,13 +41,15 @@
           :loading="loading"
         >
           <span slot="indexId" slot-scope="text">#{{ text?.key }}</span>
-          <span
-            slot="name"
-            slot-scope="text"
-            @click="$router.push(`/settings/specialities/${text?.id}`)"
-            >{{ text?.name_ru }}</span
-          >
 
+          <nuxt-link
+              class="title-link"
+              :to="`/settings/specialities/${text?.id}`"
+              slot="name"
+              slot-scope="text"
+          >{{ text?.name_ru }}
+          </nuxt-link
+          >
           <span slot="icon" slot-scope="text">
             <img class="table-image" v-if="text" :src="`${imgUrl}${text}`" alt="" />
 

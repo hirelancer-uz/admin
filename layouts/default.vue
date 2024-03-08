@@ -235,6 +235,14 @@ export default {
             edit: "directory-reasons",
             show: true,
           },
+          {
+            key: "72",
+            name: "Уведомления",
+            to: "/directory/notifications",
+            add: "directory-notifications",
+            edit: "directory-notifications",
+            show: true,
+          },
         ],
       },
       {

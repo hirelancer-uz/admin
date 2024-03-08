@@ -3,10 +3,10 @@
     <TitleBlock title="Регионы" :breadbrumb="['Настройки сайта']" lastLink="Регионы">
       <div class="d-flex">
         <a-button
-          class="add-btn add-header-btn btn-primary d-flex align-items-center"
-          type="primary"
-          @click="addCountries"
-          v-if="checkAccess('regions', 'post')"
+            class="add-btn add-header-btn btn-primary d-flex align-items-center"
+            type="primary"
+            @click="addCountries"
+            v-if="checkAccess('regions', 'post')"
         >
           <span v-if="!loadingBtn" class="svg-icon" v-html="addIcon"></span>
           Добавить
@@ -18,41 +18,49 @@
         <div class="d-flex justify-content-between align-items-center card_header">
           <div class="prodduct-list-header-grid w-100 align-items-center">
             <SearchInput
-              placeholder="Поиск"
-              @changeSearch="changeSearch($event, '/regions', '__GET_REGIONS')"
+                placeholder="Поиск"
+                @changeSearch="changeSearch($event, '/regions', '__GET_REGIONS')"
             />
             <div></div>
             <a-button
-              @click="clearQuery('/regions', '__GET_REGIONS')"
-              type="primary"
-              class="d-flex align-items-center justify-content-center"
-              style="height: 38px"
-              ><a-icon type="reload"
-            /></a-button>
+                @click="clearQuery('/regions', '__GET_REGIONS')"
+                type="primary"
+                class="d-flex align-items-center justify-content-center"
+                style="height: 38px"
+            >
+              <a-icon type="reload"
+              />
+            </a-button>
           </div>
         </div>
         <a-table
-          :columns="columns"
-          :pagination="false"
-          :data-source="regions"
-          :loading="loading"
+            :columns="columns"
+            :pagination="false"
+            :data-source="regions"
+            :loading="loading"
         >
           <span slot="indexId" slot-scope="text">#{{ text?.key }}</span>
-
+          <span
+              @click="editAction(text.id)"
+              class="title-link"
+              slot="name"
+              slot-scope="text"
+          >{{ text?.name_ru }}
+          </span>
           <span slot="id" slot-scope="text">
             <span
-              class="action-btn"
-              v-if="checkAccess('regions', 'put')"
-              v-html="editIcon"
-              @click="editAction(text)"
+                class="action-btn"
+                v-if="checkAccess('regions', 'put')"
+                v-html="editIcon"
+                @click="editAction(text)"
             >
             </span>
             <a-popconfirm
-              title="Are you sure delete this row?"
-              ok-text="Yes"
-              cancel-text="No"
-              @confirm="deleteAction(text)"
-              v-if="checkAccess('regions', 'delete')"
+                title="Are you sure delete this row?"
+                ok-text="Yes"
+                cancel-text="No"
+                @confirm="deleteAction(text)"
+                v-if="checkAccess('regions', 'delete')"
             >
               <span class="action-btn" v-html="deleteIcon"> </span>
             </a-popconfirm>
@@ -60,70 +68,70 @@
         </a-table>
         <div class="d-flex justify-content-between mt-4">
           <a-select
-            v-model="params.pageSize"
-            class="table-page-size"
-            style="width: 120px"
-            @change="
+              v-model="params.pageSize"
+              class="table-page-size"
+              style="width: 120px"
+              @change="
               ($event) => changePageSizeGlobal($event, '/regions', '__GET_REGIONS')
             "
           >
             <a-select-option
-              v-for="item in pageSizes"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              >{{ item.label }}
+                v-for="item in pageSizes"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            >{{ item.label }}
             </a-select-option>
           </a-select>
           <a-pagination
-            class="table-pagination"
-            :simple="false"
-            v-model.number="current"
-            :total="totalPage"
-            :page-size.sync="params.pageSize"
+              class="table-pagination"
+              :simple="false"
+              v-model.number="current"
+              :total="totalPage"
+              :page-size.sync="params.pageSize"
           />
         </div>
       </div>
     </div>
     <a-modal
-      v-model="visible"
-      centered
-      :title="title"
-      :closable="false"
-      width="524px"
-      @ok="handleOk"
+        v-model="visible"
+        centered
+        :title="title"
+        :closable="false"
+        width="524px"
+        @ok="handleOk"
     >
       <div class="d-flex flex-column">
         <div class="form_tab mb-4 bottom_hr">
           <span
-            v-for="(item, index) in formTabData"
-            :key="index"
-            @click="formTab = item.index"
-            :class="{ 'avtive-formTab': formTab == item.index }"
+              v-for="(item, index) in formTabData"
+              :key="index"
+              @click="formTab = item.index"
+              :class="{ 'avtive-formTab': formTab == item.index }"
           >
             {{ item.label }}
           </span>
         </div>
         <div
-          class="d-flex flex-column"
-          v-for="(item, index) in formTabData"
-          :key="index"
-          v-if="formTab == item.index"
+            class="d-flex flex-column"
+            v-for="(item, index) in formTabData"
+            :key="index"
+            v-if="formTab == item.index"
         >
           <a-form-model :model="form" ref="ruleForm" :rules="rules" layout="vertical">
             <a-form-model-item
-              class="form-item mb-3"
-              label="Название страны"
-              prop="name_ru"
+                class="form-item mb-3"
+                label="Название страны"
+                prop="name_ru"
             >
-              <a-input v-model="form[`name_${item.index}`]" placeholder="Название..." />
+              <a-input v-model="form[`name_${item.index}`]" placeholder="Название..."/>
             </a-form-model-item>
             <a-form-model-item label="Страна" prop="country_id" class="form-item mb-3">
               <a-select v-model="form.country_id" placeholder="please select your zone">
                 <a-select-option
-                  v-for="item in countries"
-                  :key="item?.id"
-                  :value="item?.id"
+                    v-for="item in countries"
+                    :key="item?.id"
+                    :value="item?.id"
                 >
                   {{ item?.name_ru }}
                 </a-select-option>
@@ -135,16 +143,16 @@
       <template slot="footer">
         <div class="add_modal-footer d-flex justify-content-end">
           <div
-            class="add-btn add-header-btn add-header-btn-padding btn-light-primary mx-3"
-            @click="handleOk"
+              class="add-btn add-header-btn add-header-btn-padding btn-light-primary mx-3"
+              @click="handleOk"
           >
             Отмена
           </div>
           <a-button
-            class="add-btn add-header-btn btn-primary"
-            type="primary"
-            :loading="loadingBtn"
-            @click="saveData"
+              class="add-btn add-header-btn btn-primary"
+              type="primary"
+              :loading="loadingBtn"
+              @click="saveData"
           >
             Сохранять
           </a-button>
@@ -165,17 +173,16 @@ const columns = [
   {
     title: "№",
     key: "indexId",
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "indexId" },
+    slots: {title: "customTitle"},
+    scopedSlots: {customRender: "indexId"},
     className: "column-service",
     align: "left",
     width: 50,
   },
   {
     title: "Название ",
-    dataIndex: "name_ru",
-    key: "name_ru",
-    slots: { title: "customTitle" },
+    slots: {title: "customTitle"},
+    scopedSlots: {customRender: "name"},
     className: "column-name",
     align: "left",
   },
@@ -186,7 +193,7 @@ const columns = [
     dataIndex: "id",
     key: "id",
     align: "right",
-    scopedSlots: { customRender: "id" },
+    scopedSlots: {customRender: "id"},
     width: 100,
   },
 ];
@@ -229,10 +236,10 @@ export default {
       regions: [],
       rules: {
         name_ru: [
-          { required: true, message: "This field is required", trigger: "change" },
+          {required: true, message: "This field is required", trigger: "change"},
         ],
         country_id: [
-          { required: true, message: "This field is required", trigger: "change" },
+          {required: true, message: "This field is required", trigger: "change"},
         ],
       },
       form: {
@@ -266,10 +273,10 @@ export default {
     },
     deleteAction(id) {
       this.__DELETE_GLOBAL(
-        id,
-        "fetchRegions/deleteRegions",
-        "Успешно удален",
-        "__GET_REGIONS"
+          id,
+          "fetchRegions/deleteRegions",
+          "Успешно удален",
+          "__GET_REGIONS"
       );
     },
     async __GET_REGIONS() {
@@ -312,8 +319,8 @@ export default {
       try {
         const data = await this.$store.dispatch("fetchRegions/getRegionsById", targetId);
         this.visible = true;
-        const { created_at, updated_at, id, ...rest } = data?.content;
-        this.form = { ...rest };
+        const {created_at, updated_at, id, ...rest} = data?.content;
+        this.form = {...rest};
       } catch (e) {
         this.statusFunc(e);
       }
@@ -329,7 +336,7 @@ export default {
       try {
         await this.$store.dispatch("fetchRegions/editRegions", {
           id: this.editId,
-          data: { ...res, _method: "PUT" },
+          data: {...res, _method: "PUT"},
         });
         this.handleOk();
 
@@ -350,7 +357,7 @@ export default {
       }
     },
   },
-  components: { TitleBlock, SearchInput },
+  components: {TitleBlock, SearchInput},
 };
 </script>
 <style lang="css">
@@ -359,6 +366,7 @@ export default {
   grid-template-columns: 3fr 2fr 40px;
   grid-gap: 8px;
 }
+
 .card_header {
   padding: 16.25px 0;
 }
