@@ -312,15 +312,19 @@ export default {
       //   return true;
       // }
     },
+    removeToken() {
+      localStorage.removeItem('auth_token');
+      this.$router.push("/admin/login");
+    },
     onCollapse(collapsed, type) {
       this.collapsed = !this.collapsed;
     },
     async logOut() {
       try {
         const data = await this.$store.dispatch("fetchAuth/logOut");
-        // await localStorage.removeItem("auth_token");
-        this.$router.push("/admin/login");
+        await this.removeToken();
       } catch (e) {
+        await this.removeToken();
         this.statusFunc(e);
       }
     },

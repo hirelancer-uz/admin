@@ -1,10 +1,9 @@
 export const actions = {
   async auth({}, data) {
-    const res = await this.$axios.$post(`/api/admin/auth/login`, data);
-    return res;
+    return this.$axios.$post(`/api/admin/auth/login`, data);
+
   },
   async logOut({}, data) {
-    const res = await this.$axiosInstance.$post(`/api/auth/logout`);
-    return res;
+    return this.$axiosInstance.$get(`/api/admin/auth/logout`);
   },
 };
