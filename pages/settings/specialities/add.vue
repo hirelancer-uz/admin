@@ -45,13 +45,13 @@
                 :key="index"
                 v-if="formTab == item.index"
               >
-                <FormTitle title="Специальности" />
+                <FormTitle title="Специальности"/>
                 <a-form-model-item
                   class="form-item mb-3"
                   label="Заголовок"
                   prop="name_ru"
                 >
-                  <a-input v-model="form[`name_${item.index}`]" placeholder="Заголовок" />
+                  <a-input v-model="form[`name_${item.index}`]" placeholder="Заголовок"/>
                 </a-form-model-item>
                 <a-form-model-item class="form-item mb-3" label="Подзаголовок">
                   <a-select
@@ -69,7 +69,7 @@
                   </a-select>
                 </a-form-model-item>
                 <a-form-model-item class="form-item mb-3" label="Описание">
-                  <quill-editor class="product-editor mt-1" :options="editorOption" />
+                  <quill-editor class="product-editor mt-1" :options="editorOption"/>
                 </a-form-model-item>
               </div>
               <div class="d-flex flex-column mt-4">
@@ -91,16 +91,16 @@
                   :key="index"
                   v-if="formTab == item.index"
                 >
-                  <FormTitle title="SEO" />
+                  <FormTitle title="SEO"/>
                   <a-form-model-item class="form-item mb-3" label="Slug">
-                    <a-input placeholder="Slug..." />
+                    <a-input placeholder="Slug..."/>
                   </a-form-model-item>
 
                   <a-form-model-item class="form-item mb-3" label="Мета-ключевые слова">
-                    <a-input type="textarea" rows="5" placeholder="Ключевые слова..." />
+                    <a-input type="textarea" rows="5" placeholder="Ключевые слова..."/>
                   </a-form-model-item>
                   <a-form-model-item class="form-item mb-3" label="Мета-описание">
-                    <a-input type="textarea" rows="5" placeholder="Описание..." />
+                    <a-input type="textarea" rows="5" placeholder="Описание..."/>
                   </a-form-model-item>
                 </div>
               </div>
@@ -108,14 +108,14 @@
 
             <span>
               <div class="card_block main-table px-4 py-4">
-                <FormTitle title="Параметры" />
+                <FormTitle title="Параметры"/>
                 <a-select v-model="value" class="form-item w-100" placeholder="Status">
                   <a-select-option
                     v-for="item in statusData"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
-                    >{{ item.label }}
+                  >{{ item.label }}
                   </a-select-option>
                 </a-select>
                 <div class="clearfix mt-4">
@@ -129,7 +129,7 @@
                     accept=".jpg, .png, .jpeg, .webp"
                   >
                     <div v-if="fileList.length < 1">
-                      <a-icon type="plus" />
+                      <a-icon type="plus"/>
                       <div class="ant-upload-text">Загрузить изображение</div>
                     </div>
                   </a-upload>
@@ -138,7 +138,7 @@
                     :footer="null"
                     @cancel="handleCancel"
                   >
-                    <img alt="example" style="width: 100%" :src="previewImage" />
+                    <img alt="example" style="width: 100%" :src="previewImage"/>
                   </a-modal>
                 </div>
               </div>
@@ -221,10 +221,11 @@ export default {
   methods: {
     onSubmit() {
       let formData = new FormData();
-      formData.append("icon", this.fileList.at(-1).originFileObj);
-      if (this.form.icon) {
+      if (this.fileList.length > 0)
+        formData.append("icon", this.fileList.at(-1).originFileObj);
+      if (this.form.icon)
         formData.append("icon", this.form.icon);
-      }
+
       if (this.editId) {
         formData.append("_method", "PUT");
       }
@@ -264,7 +265,8 @@ export default {
           delete elem["children"];
           return elem;
         });
-      } catch (e) {}
+      } catch (e) {
+      }
     },
     handleBeforeUpload(file) {
       return true;
@@ -272,7 +274,7 @@ export default {
     handleRemove(e, name) {
       this.fileList = [];
     },
-    customRequest({ onSuccess, onError, file }, name) {
+    customRequest({onSuccess, onError, file}, name) {
       const reader = new FileReader();
       reader.onload = () => {
         const uploadedFile = {
@@ -296,7 +298,7 @@ export default {
       this.previewVisible = false;
     },
   },
-  components: { TitleBlock, FormTitle },
+  components: {TitleBlock, FormTitle},
 };
 </script>
 <style lang="css">
@@ -305,6 +307,7 @@ export default {
   grid-gap: 13px;
   grid-template-columns: 5fr 2fr;
 }
+
 .posts .ant-upload.ant-upload-select-picture-card,
 .posts .ant-upload-list-picture-card .ant-upload-list-item,
 .posts .ant-upload-list-picture-card-container {

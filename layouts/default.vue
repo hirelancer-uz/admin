@@ -335,7 +335,6 @@ export default {
       if (this.$route.name.includes("directory")) {
         this.openKeys = ["7"];
       }
-      console.log(this.openKeys);
     },
     d(item) {
       switch (item.index) {

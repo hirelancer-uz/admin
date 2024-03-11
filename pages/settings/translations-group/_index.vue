@@ -222,9 +222,9 @@
             <a-form-model-item class="form-item mb-3" label="Значение(ru)" prop="val.ru">
               <a-input v-model="formTranlate.val.ru" placeholder="Значение(ru)..." />
             </a-form-model-item>
-           <a-form-model-item class="form-item mb-3" label="Значение(en)">
-             <a-input v-model="formTranlate.val.en" placeholder="Значение(en)..." />
-           </a-form-model-item>
+<!--           <a-form-model-item class="form-item mb-3" label="Значение(en)">-->
+<!--             <a-input v-model="formTranlate.val.en" placeholder="Значение(en)..." />-->
+<!--           </a-form-model-item>-->
             <a-form-model-item class="form-item mb-3" label="Значение(uz)">
               <a-input v-model="formTranlate.val.uz" placeholder="Значение(uz)..." />
             </a-form-model-item>
@@ -290,13 +290,13 @@ const columns = [
     align: "left",
     width: "30%",
   },
-  {
-    title: "ЗНАЧЕНИЕ(EN)",
-  
-    slots: { title: "customTitle" },
-    scopedSlots: { customRender: "valEn" },
-    className: "column-name",
-  },
+  // {
+  //   title: "ЗНАЧЕНИЕ(EN)",
+  //
+  //   slots: { title: "customTitle" },
+  //   scopedSlots: { customRender: "valEn" },
+  //   className: "column-name",
+  // },
   {
     title: "ЗНАЧЕНИЕ(UZ)",
 
