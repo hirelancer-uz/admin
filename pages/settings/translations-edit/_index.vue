@@ -185,7 +185,7 @@ export default {
   name: "IndexPage",
   mixins: [status, global, authAccess],
   head: {
-    title: "F.A.Q",
+    title: "Переводы",
   },
   data() {
     return {
