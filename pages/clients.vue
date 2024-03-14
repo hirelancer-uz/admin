@@ -158,8 +158,6 @@ export default {
   methods: {
     moment,
     showAction(id) {
-      console.log(id);
-      // this.__GET_CLIENTS_BY_ID(id);
       this.$router.push(`/show-client/${id}`);
     },
     async __GET_CLIENTS_BY_ID(id) {
