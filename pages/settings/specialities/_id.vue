@@ -7,11 +7,25 @@
     >
       <div class="d-flex">
         <div
-          class="add-btn add-header-btn add-header-btn-padding btn-light-primary mx-3"
+          class="add-btn add-header-btn add-header-btn-padding btn-light-primary "
           @click="$router.go(-1)"
         >
           Отмена
         </div>
+        <a-popconfirm
+          title="Вы уверены, что хотите удалить эту специальность?"
+          ok-text="Да"
+          cancel-text="Нет"
+          @confirm="deleteAction()"
+        >
+          <a-button
+            class="add-btn add-header-btn btn-primary d-flex align-items-center mx-3"
+            type="danger"
+          >
+            Удалить
+          </a-button>
+        </a-popconfirm>
+
         <a-button
           class="add-btn add-header-btn btn-primary d-flex align-items-center"
           type="primary"
@@ -228,6 +242,9 @@ export default {
     },
   },
   methods: {
+    deleteAction() {
+      this.__DELETE_GLOBAL()
+    },
     onSubmit() {
       let formData = new FormData();
       if (this.fileList.length > 0) {
@@ -245,6 +262,15 @@ export default {
           return false;
         }
       });
+    },
+    async __DELETE_GLOBAL() {
+      try {
+        await this.$store.dispatch("fetchSpecialities/deleteSpecialities", this.$route.params.id);
+        this.notification("success", "success", "Успешно удален");
+        this.$router.push('/settings/specialities')
+      } catch (e) {
+        this.statusFunc(e.response);
+      }
     },
     async __EDIT_SPECIAL(res) {
       try {
@@ -330,7 +356,6 @@ export default {
       };
       reader.readAsDataURL(file); // Use readAsDataURL to get Base64 data
     },
-
     handleCancel() {
       this.previewVisible = false;
     },
