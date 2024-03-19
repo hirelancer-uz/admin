@@ -130,3 +130,6 @@ button {
   color: #1890ff;
   cursor: pointer;
 }
+.ant-pagination-item-ellipsis {
+  display: flex !important;
+}

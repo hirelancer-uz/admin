@@ -24,7 +24,7 @@
           </div>
           <div class="item">
             <p class="question">Category</p>
-            <p class="answer">UI/UX design</p>
+            <p class="answer" >{{ orderSpecialities }}</p>
           </div>
           <div class="item">
             <p class="question">Published date</p>
@@ -94,6 +94,9 @@ export default {
     imgUrl() {
       return this.baseUrl + "/storage/";
     },
+    orderSpecialities() {
+      return this.order?.specialities && this.order?.specialities[0]?.name_ru
+    }
   },
   methods: {
     moment,

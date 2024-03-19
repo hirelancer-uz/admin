@@ -23,6 +23,11 @@
         >
           Назад
         </div>
+        <a-button type="primary"
+          class="add-btn add-header-btn add-header-btn-padding" >
+          Сохранить
+        </a-button>
+
       </div>
     </TitleBlock>
     <a-form-model :model="form" ref="ruleForm" :rules="rules" layout="vertical">
@@ -129,24 +134,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="card_block main-table px-4 py-4 mt-4">
-                  <FormTitle title="Параметры" />
-                  <div class="settings" :class="{ 'select-placeholder': !value }">
-                    <a-select
-                      v-model="value"
-                      placeholder="Статус"
-                      :class="{ 'select-placeholder': !value }"
-                    >
-                      <a-select-option
-                        v-for="filterItem in statusFilter"
-                        :key="filterItem?.id"
-                        placeholder="good"
-                      >
-                        {{ filterItem?.name?.ru }}
-                      </a-select-option>
-                    </a-select>
-                  </div>
-                </div>
+
               </div>
               <div>
                 <div>
@@ -163,6 +151,26 @@
                   </div>
                 </div>
               </div>
+            <div>
+              <div class="card_block main-table px-4 py-4">
+                <FormTitle title="Параметры" />
+                <div class="settings" :class="{ 'select-placeholder': !value }">
+                  <a-select
+                    v-model="value"
+                    placeholder="Статус"
+                    :class="{ 'select-placeholder': !value }"
+                  >
+                    <a-select-option
+                      v-for="filterItem in statusFilter"
+                      :key="filterItem?.id"
+                      placeholder="good"
+                    >
+                      {{ filterItem?.name?.ru }}
+                    </a-select-option>
+                  </a-select>
+                </div>
+              </div>
+            </div>
             </div>
             <div v-if="$route.hash == '#portfolio'">
               <div class="card_block main-table px-4 py-4">
@@ -177,6 +185,7 @@
                   >
                     <a-card hoverable>
                       <img
+                        class="portfolio-img"
                         v-if="portfolio?.images[0]?.img"
                         slot="cover"
                         alt="example"
@@ -184,6 +193,7 @@
                       />
                       <img
                         v-else
+                        class="portfolio-img"
                         slot="cover"
                         alt="example"
                         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
@@ -206,12 +216,12 @@
                         /> -->
                       </div>
                       <div class="d-flex justify-content-between w-100 mt-2">
-                        <a-statistic :value="1128">
+                        <a-statistic :value="portfolio?.classes_count">
                           <template #suffix>
                             <a-icon type="like" />
                           </template>
                         </a-statistic>
-                        <a-statistic :value="1128">
+                        <a-statistic :value="portfolio?.view_count">
                           <template #suffix>
                             <a-icon type="eye" />
                           </template>
@@ -484,10 +494,15 @@ export default {
 };
 </script>
 <style lang="css" scoped>
+.portfolio-img {
+  max-height: 260px;
+  width: 100%;
+  object-fit: contain;
+}
 .freelancer-grid {
   display: grid;
   grid-gap: 13px;
-  grid-template-columns: 2fr 6fr;
+  grid-template-columns: 2fr 5fr 2fr;
 }
 .freelancer .image {
   width: 100px;
