@@ -6,6 +6,12 @@ export const actions = {
     );
     return res;
   },
+  async putFreelancer({}, {id, payload}) {
+    return await this.$axiosInstance.post(
+      `/api/admin/freelancers/${id}`,
+      payload
+    );
+  },
   async postMailing({}, data) {
     const res = await this.$axiosInstance.$post(`/api/mailing`, data);
     return res;
