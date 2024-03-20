@@ -127,7 +127,10 @@
 
                     <div class="info">
                       <a-form-model-item v-if="toEdit" class="form-item mb-0" prop="name">
-                        <a-input v-model="form.name" placeholder="Полное имя"/>
+                        <a-input v-model="form.name" placeholder="Имя"/>
+                      </a-form-model-item>
+                      <a-form-model-item v-if="toEdit" class="form-item mb-0" prop="surname">
+                        <a-input v-model="form.surname" placeholder="Фамилия"/>
                       </a-form-model-item>
                       <h3 v-else>{{ freelancer?.name }}</h3>
 
@@ -528,6 +531,13 @@ export default {
       userType: 1,
       rules: {
         name: [
+          {
+            required: true,
+            message: 'This field is required',
+            trigger: "blur",
+          },
+        ],
+        surname: [
           {
             required: true,
             message: 'This field is required',
