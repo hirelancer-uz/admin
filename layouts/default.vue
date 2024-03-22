@@ -83,38 +83,38 @@
               </span>
             </a-menu-item>
 
-            <a-menu-item
-              class="menu_item"
-              v-if="menuList.transactions.show"
-              :key="menuList.transactions.key"
-              @click="$router.push(menuList.transactions.to)"
-              :class="{
-                'is-active': 'transactions' == $route.name,
-              }"
-            >
-              <a-icon v-html="menuList.transactions.icon"></a-icon>
-              <span>
-                <nuxt-link :to="menuList.transactions.to"
-                  ><span>{{ d(menuList.transactions) }}</span>
-                </nuxt-link>
-              </span>
-            </a-menu-item>
-            <a-menu-item
-              class="menu_item"
-              v-if="menuList.helpDesk.show"
-              :key="menuList.helpDesk.key"
-              @click="$router.push(menuList.helpDesk.to)"
-              :class="{
-                'is-active': 'help-desk' == $route.name,
-              }"
-            >
-              <a-icon v-html="menuList.helpDesk.icon"></a-icon>
-              <span>
-                <nuxt-link :to="menuList.helpDesk.to"
-                  ><span>{{ d(menuList.helpDesk) }}</span>
-                </nuxt-link>
-              </span>
-            </a-menu-item>
+<!--            <a-menu-item-->
+<!--              class="menu_item"-->
+<!--              v-if="menuList.transactions.show"-->
+<!--              :key="menuList.transactions.key"-->
+<!--              @click="$router.push(menuList.transactions.to)"-->
+<!--              :class="{-->
+<!--                'is-active': 'transactions' == $route.name,-->
+<!--              }"-->
+<!--            >-->
+<!--              <a-icon v-html="menuList.transactions.icon"></a-icon>-->
+<!--              <span>-->
+<!--                <nuxt-link :to="menuList.transactions.to"-->
+<!--                  ><span>{{ d(menuList.transactions) }}</span>-->
+<!--                </nuxt-link>-->
+<!--              </span>-->
+<!--            </a-menu-item>-->
+<!--            <a-menu-item-->
+<!--              class="menu_item"-->
+<!--              v-if="menuList.helpDesk.show"-->
+<!--              :key="menuList.helpDesk.key"-->
+<!--              @click="$router.push(menuList.helpDesk.to)"-->
+<!--              :class="{-->
+<!--                'is-active': 'help-desk' == $route.name,-->
+<!--              }"-->
+<!--            >-->
+<!--              <a-icon v-html="menuList.helpDesk.icon"></a-icon>-->
+<!--              <span>-->
+<!--                <nuxt-link :to="menuList.helpDesk.to"-->
+<!--                  ><span>{{ d(menuList.helpDesk) }}</span>-->
+<!--                </nuxt-link>-->
+<!--              </span>-->
+<!--            </a-menu-item>-->
             <a-sub-menu :key="menu.sub" style="color: #9d9da6" v-for="menu in menuData">
               <span slot="title">
                 <span v-html="menu.icon"></span
@@ -194,20 +194,20 @@ export default {
           icon: require("../assets/svg/orderIcon.svg?raw"),
           show: true,
         },
-        transactions: {
-          name: "Транзакции",
-          key: "4",
-          to: "/transactions",
-          icon: require("../assets/svg/transc.svg?raw"),
-          show: true,
-        },
-        helpDesk: {
-          name: "Служба поддержки",
-          key: "5",
-          to: "/help-desk",
-          icon: require("../assets/svg/helpDesk.svg?raw"),
-          show: true,
-        },
+        // transactions: {
+        //   name: "Транзакции",
+        //   key: "4",
+        //   to: "/transactions",
+        //   icon: require("../assets/svg/transc.svg?raw"),
+        //   show: true,
+        // },
+        // helpDesk: {
+        //   name: "Служба поддержки",
+        //   key: "5",
+        //   to: "/help-desk",
+        //   icon: require("../assets/svg/helpDesk.svg?raw"),
+        //   show: true,
+        // },
       },
     };
   },
@@ -229,6 +229,14 @@ export default {
         menuItems: [
           {
             key: "71",
+            name: "Cправочник",
+            to: "/directory/directory",
+            add: "directory-directory",
+            edit: "directory-directory",
+            show: true,
+          },
+          {
+            key: "72",
             name: "Причины отказа",
             to: "/directory/reasons",
             add: "directory-reasons",
@@ -236,7 +244,7 @@ export default {
             show: true,
           },
           {
-            key: "72",
+            key: "73",
             name: "Уведомления",
             to: "/directory/notifications",
             add: "directory-notifications",

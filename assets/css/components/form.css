@@ -174,7 +174,7 @@
   line-height: 18px;
   color: #3699ff;
   cursor: pointer;
-  margin-top: 24px;
+  /*margin-top: 24px;*/
 }
 .create-inner-variant svg {
   margin-right: 6px;

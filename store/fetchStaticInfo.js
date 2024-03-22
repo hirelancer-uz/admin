@@ -1,7 +1,7 @@
 export const actions = {
   async getStaticInfo({}, payload) {
     try {
-      const res = await this.$axiosInstance.$get(`/site_infos`, {
+      const res = await this.$axiosInstance.$get(`/api/admin/site_infos`, {
         params: payload,
       });
       return res;
@@ -10,7 +10,7 @@ export const actions = {
     }
   },
   async postStaticInfo({}, data) {
-    const res = await this.$axiosInstance.$post(`/site_infos`, data);
+    const res = await this.$axiosInstance.$post(`/api/admin/site_infos`, data);
     return res;
   },
 };

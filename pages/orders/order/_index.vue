@@ -110,13 +110,11 @@
                   >
                     <a-select
                       v-model="statusValue"
-                      placeholder="Tags Mode"
-                      :disabled="!activeStatus.includes(statusValue)"
                     >
                       <a-select-option
                         v-for="elem in statusData"
                         :key="elem.value"
-                        :disabled="!activeStatus.includes(elem.value)"
+                        :disabled="!activeStatus.includes(elem.value) || order.status > elem.value"
                       >
                         {{ elem.label }}
                       </a-select-option>
@@ -125,7 +123,6 @@
                   <p class="last_update">Последнее обновление: {{ lastUpdate }}</p>
                   <a-button
                     class="py-3 add-btn btn-primary d-flex justify-content-center align-items-center"
-                    :class="{ disabledBtn: order?.status == statusValue }"
                     style="height: 42px"
                     type="primary"
                     @click="onSubmit"

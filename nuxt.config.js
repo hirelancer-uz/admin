@@ -20,6 +20,7 @@ export default {
     "~/plugins/axios-instance",
     { src: "~plugins/antdv.js", ssr: false },
     { src: "~plugins/quill-editor.js", ssr: false },
+    { src: "~plugins/ckeditor.js", ssr: false },
     { src: "~plugins/v-mask.js", ssr: false },
   ],
   loadingIndicator: {
