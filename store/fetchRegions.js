@@ -1,6 +1,6 @@
 export const actions = {
   async getRegions({}, payload) {
-    const res = await this.$axiosInstance.$get(`/api/regions`, {
+    const res = await this.$axiosInstance.$get(`/api/admin/regions`, {
       params: payload,
     });
     return res;

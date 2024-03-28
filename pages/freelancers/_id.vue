@@ -958,7 +958,6 @@ export default {
   line-height: 24px;
   color: #3f4254;
   position: relative;
-//white-space: nowrap;
 }
 
 .freelancer .info p {
