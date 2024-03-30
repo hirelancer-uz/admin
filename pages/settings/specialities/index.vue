@@ -95,9 +95,12 @@
                 <span>#{{ index + 1 }}</span>
               </td>
               <td class="column-name ant-table-row-cell-break-word" style="text-align: left;">
-                <span><img
-                  src="https://test-api.hirelancer.ndc.uz//storage/icon/8SBGlYv7PbALrSj5OrEc9XP6y3wiVaDqCSoce9hx.png"
+                <span>
+                  <img
+                  v-if="reason?.icon"
+                  :src="`${imgUrl}${reason?.icon}`"
                   alt="" class="table-image">
+                  <img v-else src="@/assets/images/photo_2023-03-04_13-28-58.jpg" class="table-image" alt="">
                 </span>
                 <nuxt-link class="title-link px-3" :to="`/settings/specialities/${reason?.id}`">{{
                     reason?.name_ru
@@ -117,8 +120,6 @@
                     </a-tag>
                   </span>
               </td>
-
-
               <td
                 class="column-btns ant-table-row-cell-break-word"
                 style="text-align: right;width: 150px"
