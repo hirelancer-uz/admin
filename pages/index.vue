@@ -280,7 +280,7 @@ export default {
       const data = await this.$store.dispatch("fetchRegions/getRegions", {
         ...this.$route.query,
       });
-      this.regions = data?.content;
+      this.regions = data?.content?.data;
     },
     async __GET_ORDERS() {
       this.loading = true;

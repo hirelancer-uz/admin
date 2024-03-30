@@ -516,7 +516,7 @@ export default {
     },
   },
   watch: {
-    async current(val) {
+     current(val) {
       this.changePagination(val, "/regions", "__GET_REASONS");
     },
     visible(val) {

@@ -19,11 +19,11 @@
           <div class="prodduct-list-header-grid w-100 align-items-center">
             <SearchInput
               placeholder="Поиск"
-              @changeSearch="changeSearch($event, '/regions', '__GET_NOTIFICATIONS')"
+              @changeSearch="changeSearch($event,  '__GET_NOTIFICATIONS')"
             />
             <div></div>
             <a-button
-              @click="clearQuery('/regions', '__GET_NOTIFICATIONS')"
+              @click="clearQuery('__GET_NOTIFICATIONS')"
               type="primary"
               class="d-flex align-items-center justify-content-center"
               style="height: 38px"
@@ -173,16 +173,17 @@ const columns = [
   },
   {
     title: "Заголовок ",
-    slots: {title: "customTitle"},
-    scopedSlots: {customRender: "theme"},
+    dataIndex: "notifications",
     className: "column-name",
+    customRender: (text) => text[0]?.theme,
     align: "left",
+    key: "title",
   },
   {
     title: "Сообщение ",
-    dataIndex: "message",
+    dataIndex: "notifications",
     key: "message",
-    slots: {title: "customTitle"},
+    customRender: (text) => text[0]?.message,
     className: "column-name",
     align: "left",
   },
@@ -271,6 +272,7 @@ export default {
         ...this.$route.query,
       });
       this.loading = false;
+      this.totalPage = data?.content?.total;
       this.notifications = data?.content?.data.map((item, index) => {
         return {
           ...item,
@@ -290,7 +292,7 @@ export default {
     async __POST_NOTIFICATIONS(data) {
       try {
         await this.$store.dispatch("fetchNotifications/postNotifications", data);
-        this.notification("success", "success", "Успешно добавлен");
+        this.notification("success", "success", "Успешно отправлен");
         this.handleOk();
         this.__GET_NOTIFICATIONS();
       } catch (e) {
@@ -320,8 +322,8 @@ export default {
     },
   },
   watch: {
-    async current(val) {
-      this.changePagination(val, "/regions", "__GET_NOTIFICATIONS");
+    current(val) {
+      this.changePagination(val, "__GET_NOTIFICATIONS");
     },
     visible(val) {
       if (val == false) {

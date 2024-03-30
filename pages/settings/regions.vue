@@ -237,10 +237,6 @@ export default {
           label: "O'zbek",
           index: "uz",
         },
-        // {
-        //   label: "English",
-        //   index: "en",
-        // },
       ],
       editIcon: require("../../assets/svg/edit.svg?raw"),
       deleteIcon: require("../../assets/svg/delete.svg?raw"),
