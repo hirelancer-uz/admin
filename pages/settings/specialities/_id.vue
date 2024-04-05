@@ -140,7 +140,7 @@
                     :before-upload="handleBeforeUpload"
                     @preview="previewVisible = true"
                     :custom-request="($event) => customRequest($event, item)"
-                    accept=".jpg, .png, .jpeg, .webp"
+                    accept=".jpg, .png, .jpeg, .gif, .svg"
                   >
                     <div v-if="fileList.length < 1">
                       <a-icon type="plus"/>
@@ -247,9 +247,8 @@ export default {
     },
     onSubmit() {
       let formData = new FormData();
-      if (this.fileList.length > 0) {
+      if (this.fileList.length > 0 && !this.fileList.at(-1)?.id) {
         formData.append("icon", this.fileList.at(-1).originFileObj);
-        // formData.append("icon", this.form.icon);
       }
       formData.append("_method", "PUT");
       formData.append("name_ru", this.form.name_ru);
@@ -304,6 +303,7 @@ export default {
               status: "done",
               oldImg: true,
               url: this.imgUrl + data?.content?.icon,
+              id: 1
             },
           ];
         this.previewImage = this.imgUrl + data?.content?.icon;
