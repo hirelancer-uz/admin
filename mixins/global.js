@@ -39,14 +39,14 @@ export default {
     async changeSearch(val, func) {
       this.searchVal = val.target.value;
       if (val.target.value.length > 2) {
-        if (this.$route.query?.search != val.target.value)
+        if (this.$route.query?.search !== val.target.value)
           await this.$router.replace({
             path: this.$route.path,
             query: { ...this.$route.query, search: val.target.value, page: 1 },
           });
-        if (val.target.value == this.$route.query.search) this[func]();
-      } else if (val.target.value.length == 0) {
-        this.clearQuery(this.$route.path, func);
+        if (val.target.value === this.$route.query.search) this[func]();
+      } else if (val.target.value.length === 0) {
+        this.clearQuery(func);
       }
     },
     async clearQuery(func) {

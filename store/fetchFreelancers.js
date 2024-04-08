@@ -20,4 +20,8 @@ export const actions = {
     const res = await this.$axiosInstance.$get(`/api/admin/freelancers/${id}`);
     return res;
   },
+  async getSellerById({}, id) {
+    const res = await this.$axiosInstance.$get(`/api/admin/sellers/${id}`);
+    return res;
+  },
 };

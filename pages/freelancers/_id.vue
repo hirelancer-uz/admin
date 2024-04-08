@@ -361,7 +361,7 @@
                         class="portfolio-img"
                         slot="cover"
                         alt="example"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                        src="../../assets/images/photo_2023-03-04_13-28-58.jpg"
                     />
                     <div class="position-relative">
                       <a-card-meta
@@ -399,14 +399,25 @@
                     :loading="loading"
                     align="center"
                 >
-                  <span
-                      to="/orders/1232/details"
-                      slot="client"
+                  <nuxt-link
+                      class="title-link"
+                      :to="`/orders/order/${text?.id}`"
+                      slot="name"
                       slot-scope="text"
-                      align="center"
-                  >
-                    {{ text }}
-                  </span>
+                  >{{ text?.name }}
+                  </nuxt-link>
+
+                  <span slot="specialities" slot-scope="text">
+            <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
+            <a-tag
+                color="blue"
+                v-else
+                style="cursor: pointer"
+                @click="currentFreelancer(text)"
+            >
+              {{ text?.length }}
+            </a-tag>
+          </span>
                   <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
 
                   <span
@@ -414,64 +425,84 @@
                       slot-scope="tags"
                       class="tags-style"
                       :class="{
-                      tag_success: tags == 'active',
-                      tag_inProgress: tags == 'in_process',
-                      tag_approved: tags == 'accepted',
-                      tag_rejected: tags == 'canceled',
-                    }"
+              tag_success: tags.status == 4,
+              tag_inProgress: tags.status == 2 || tags.status == 3,
+              tag_approved: tags.status == 1,
+              tag_rejected: tags.status == 5 || tags.status == 6,
+              tag_mode: tags.status == 0,
+            }"
                   >
-                    <!-- 'new', 'canceled', 'accepted', 'in_process' -->
-                    Active
-                  </span>
+            {{ currentStatus(tags) }}
+          </span>
                   <span slot="btns" slot-scope="text">
-                    <!-- <span
+
+            <span
                 v-if="checkAccess('orders', 'put')"
                 class="action-btn"
-                v-html="eyeIcon"
                 @click="$router.push(`/orders/order/${text}`)"
-              >
-              </span> -->
-                    <span
-                        v-if="checkAccess('orders', 'put')"
-                        class="action-btn"
-                        @click="$router.push(`/orders/order/${text}`)"
-                        v-html="eyeIcon"
-                    >
-                    </span>
-                    <span
-                        class="action-btn"
-                        @click="deleteAction(text)"
-                        v-html="deleteIcon"
-                    >
-                    </span>
-                  </span>
+                v-html="eyeIcon"
+            >
+            </span>
+          </span>
                 </a-table>
-                <div class="d-flex justify-content-between mt-4">
-                  <a-select
-                      v-model="params.pageSize"
-                      class="table-page-size"
-                      style="width: 120px"
-                      @change="
-                      ($event) =>
-                        changePageSizeGlobal($event, '/orders/all-orders', '__GET_ORDERS')
-                    "
+              </div>
+            </div>
+            <div v-if="$route.hash == '#my-orders'">
+              <div class="card_block main-table px-4 py-4">
+                <FormTitle title="Заказы"/>
+                <a-table
+                    :columns="columnsOrders"
+                    :data-source="seller?.orders"
+                    :pagination="false"
+                    :loading="loading"
+                    align="center"
+                >
+                  <nuxt-link
+                      class="title-link"
+                      :to="`/orders/order/${text?.id}`"
+                      slot="name"
+                      slot-scope="text"
+                  >{{ text?.name }}
+                  </nuxt-link>
+
+                  <span slot="specialities" slot-scope="text">
+            <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
+            <a-tag
+                color="blue"
+                v-else
+                style="cursor: pointer"
+                @click="currentFreelancer(text)"
+            >
+              {{ text?.length }}
+            </a-tag>
+          </span>
+                  <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
+
+                  <span
+                      slot="status"
+                      slot-scope="tags"
+                      class="tags-style"
+                      :class="{
+              tag_success: tags.status == 4,
+              tag_inProgress: tags.status == 2 || tags.status == 3,
+              tag_approved: tags.status == 1,
+              tag_rejected: tags.status == 5 || tags.status == 6,
+              tag_mode: tags.status == 0,
+            }"
                   >
-                    <a-select-option
-                        v-for="item in pageSizes"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    >{{ item.label }}
-                    </a-select-option>
-                  </a-select>
-                  <a-pagination
-                      class="table-pagination"
-                      :simple="false"
-                      v-model.number="current"
-                      :total="totalPage"
-                      :page-size.sync="params.pageSize"
-                  />
-                </div>
+            {{ currentStatus(tags) }}
+          </span>
+                  <span slot="btns" slot-scope="text">
+
+            <span
+                v-if="checkAccess('orders', 'put')"
+                class="action-btn"
+                @click="$router.push(`/orders/order/${text}`)"
+                v-html="eyeIcon"
+            >
+            </span>
+          </span>
+                </a-table>
               </div>
             </div>
           </div>
@@ -512,19 +543,20 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import status from "../../mixins/status";
-import columns from "../../mixins/columns";
 import global from "../../mixins/global";
 import authAccess from "../../mixins/authAccess";
 import BiletCard from "../../components/cards/biletCard.vue";
 import moment from "moment";
+import {columnsOrders} from "@/pages/freelancers/columns";
 
 export default {
-  mixins: [status, authAccess, columns, global],
+  mixins: [status, authAccess, global],
   head: {
     title: "Заказ",
   },
   data() {
     return {
+      columnsOrders,
       toEdit: false,
       loading: false,
       visible: false,
@@ -741,9 +773,11 @@ export default {
           // },
         ],
       },
+      seller: {}
     };
   },
   computed: {
+
     baseUrl() {
       return process.env.BASE_URL;
     },
@@ -759,6 +793,26 @@ export default {
     this.__GET_REGIONS()
   },
   methods: {
+    currentStatus(tags) {
+      if (tags.status == 4) {
+        return "Завершенный";
+      }
+      if (tags.status == 0) {
+        return "В модерации";
+      }
+      if (tags.status == 2 || tags.status == 3) {
+        return "В процессе";
+      }
+      if (tags.status == 5) {
+        return "Отмена - клиент";
+      }
+      if (tags.status == 6) {
+        return "Отмена - модератор";
+      }
+      if (tags.status == 1) {
+        return "Aктивный";
+      }
+    },
     moment,
     onSubmit() {
       let formData = new FormData();
@@ -800,6 +854,10 @@ export default {
     callback(e) {
       this.userType = Number(e);
       this.$router.push({hash: this.tabList[this.userType][0].hash});
+      switch (this.userType) {
+        case 1: this.__GET_FREELANCER();break;
+        case 2: this.__GET_SELLER();break
+      }
     },
     onDateChange(e) {
       this.form.date_of_birth = moment(e).format('YYYY-MM-DD');
@@ -852,8 +910,28 @@ export default {
             ...elem.order,
           };
         });
-
+        console.log(this.freelancer.orders)
         this.formDataTransform();
+      } catch (e) {
+      } finally {
+        this.spinning = false;
+      }
+    },
+    async __GET_SELLER() {
+      try {
+        this.spinning = true;
+        const data = await this.$store.dispatch(
+            "fetchFreelancers/getSellerById",
+            this.$route.params.id
+        );
+        console.log(data)
+        this.seller = data?.content;
+        this.seller.orders = data?.content?.orders.map((elem) => {
+          return {
+            ...elem,
+            ...elem.order,
+          };
+        });
       } catch (e) {
       } finally {
         this.spinning = false;
@@ -894,7 +972,8 @@ export default {
         ...this.$route.query,
       });
       this.loading = false;
-      this.regions = data?.content
+      this.regions = data?.content?.data;
+      console.log(this.regions)
     },
   },
 
@@ -905,7 +984,7 @@ export default {
 .portfolio-img {
   max-height: 260px;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .freelancer-grid {

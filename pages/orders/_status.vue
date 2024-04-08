@@ -104,12 +104,11 @@
           </nuxt-link>
 
           <span slot="specialities" slot-scope="text">
-            <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
+            <a-tag color="red" v-if="text?.length == 0"> {{ text }} </a-tag>
             <a-tag
                 color="blue"
                 v-else
                 style="cursor: pointer"
-                @click="currentFreelancer(text)"
             >
               {{ text?.length }}
             </a-tag>
