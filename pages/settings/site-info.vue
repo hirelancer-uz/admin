@@ -1,16 +1,16 @@
 <template lang="html">
   <div class="site-info">
     <TitleBlock
-        title="Общие данные"
-        :breadbrumb="['Настройки сайта']"
-        lastLink="Общие данные"
+      title="Общие данные"
+      :breadbrumb="['Настройки сайта']"
+      lastLink="Общие данные"
     >
       <div class="d-flex">
         <a-button
-            v-if="checkAccess('site_infos', 'put') && checkAccess('site_infos', 'post')"
-            class="add-btn add-header-btn btn-primary d-flex align-items-center"
-            type="primary"
-            @click="onSubmit"
+          v-if="checkAccess('site_infos', 'put') && checkAccess('site_infos', 'post')"
+          class="add-btn add-header-btn btn-primary d-flex align-items-center"
+          type="primary"
+          @click="onSubmit"
         >
           <span class="svg-icon"> </span>
           Сохранить
@@ -24,10 +24,10 @@
             <div class="form_tab">
               <div>
                 <span
-                    v-for="(item, index) in formTabData"
-                    :key="index"
-                    @click="formTab = item.index"
-                    :class="{ 'avtive-formTab': formTab == item.index }"
+                  v-for="(item, index) in formTabData"
+                  :key="index"
+                  @click="formTab = item.index"
+                  :class="{ 'avtive-formTab': formTab == item.index }"
                 >
                   {{ item.label }}
                 </span>
@@ -35,16 +35,16 @@
             </div>
             <div class="posts-grid">
               <div
-                  class="card_block main-table px-4 py-4 border-left-radius"
-                  v-for="(item, index) in formTabData"
-                  :key="index"
-                  v-if="formTab == item.index"
+                class="card_block main-table px-4 py-4 border-left-radius"
+                v-for="(item, index) in formTabData"
+                :key="index"
+                v-if="formTab == item.index"
               >
                 <div class="d-flex gx-5" style="gap: 16px">
                   <a-form-model-item
-                      class="form-item mb-3 w-100"
-                      label="Заголовок"
-                      prop="title_ru"
+                    class="form-item mb-3 w-100"
+                    label="Заголовок"
+                    prop="title_ru"
                   >
                     <a-input v-model="form[`title_${item.index}`]" placeholder="Заголовок"/>
                   </a-form-model-item>
@@ -53,12 +53,12 @@
 
                 <a-form-model-item class="form-item mb-3" label="Описание">
                   <quill-editor
-                      v-model="form[`desc_${item.index}`]"
-                      class="product-editor mt-1"
-                      :options="editorOption"
+                    v-model="form[`desc_${item.index}`]"
+                    class="product-editor mt-1"
+                    :options="editorOption"
                   />
                 </a-form-model-item>
-                <a-form-model-item class="form-item mb-3 w-100" label="Номер телефона">
+                <a-form-model-item class="form-item mb-3  w-100" label="Номер телефона">
                   <div class="d-flex flex-column numbers">
                     <span v-for="(number,index) in form.phone_numbers" :key="number.id">
                        <a-input placeholder="(___) ___-____" v-model="number.value"/>
@@ -69,48 +69,50 @@
                 <div class="create-inner-variant" @click="addNumber('phone_numbers')">
                   Добавить номер
                 </div>
+                <a-form-model-item class="form-item mb-3 mt-3" label="Email">
+                  <div class="d-flex flex-column numbers">
+                    <span v-for="email in form.emails" :key="email.id">
+                    <a-input v-model="email.value" placeholder="link"/>
+                    </span>
+                  </div>
+                </a-form-model-item>
+                <div class="create-inner-variant" @click="addNumber('emails')">
+                  Добавить почту
+                </div>
 
               </div>
               <span>
                 <div class="card_block px-4 py-4">
-                  <a-form-model-item class="form-item mb-3" label="Email">
-                    <div class="d-flex flex-column numbers">
-                    <span v-for="email in form.emails" :key="email.id">
-                    <a-input v-model="email.value" placeholder="link"/>
-                    </span>
-                    </div>
+                  <a-form-model-item class="form-item mb-3" label="Instagram">
+                   <a-input v-model="form.instagram" placeholder="link"/>
+                   </a-form-model-item>
+                  <a-form-model-item class="form-item mb-3" label="Telegram">
+                   <a-input v-model="form.telegram" placeholder="link"/>
                   </a-form-model-item>
-                   <div class="create-inner-variant" @click="addNumber('emails')">
-                    Добавить почту
-                  </div>
-                  <!--                  <a-form-model-item class="form-item mb-3" label="Instagram">-->
-                  <!--                    <a-input v-model="form.instagram" placeholder="link" />-->
-                  <!--                  </a-form-model-item>-->
-                  <!--                  <a-form-model-item class="form-item mb-3" label="Telegram">-->
-                  <!--                    <a-input v-model="form.telegram" placeholder="link" />-->
-                  <!--                  </a-form-model-item>-->
-                  <!--                  <a-form-model-item class="form-item mb-3" label="Facebook">-->
-                  <!--                    <a-input v-model="form.facebook" placeholder="link" />-->
-                  <!--                  </a-form-model-item>-->
-                  <!--                  <a-form-model-item class="form-item mb-3" label="YouTube">-->
-                  <!--                    <a-input v-model="form.youtube" placeholder="link" />-->
-                  <!--                  </a-form-model-item>-->
-                  <!--                  <a-form-model-item-->
-                  <!--                    class="form-item mb-3"-->
-                  <!--                    label="Втсавить карту(iframe)"-->
-                  <!--                  >-->
-                  <!--                    <a-input v-model="form.map" placeholder="iframe"/>-->
-                  <!--                  </a-form-model-item>-->
-                  <div class="clearfix d-flex">
+                   <a-form-model-item class="form-item mb-3" label="YouTube">
+                   <a-input v-model="form.youtube" placeholder="link"/>
+                   </a-form-model-item>
+                  <a-form-model-item class="form-item mb-3" label="Telegram ( Help )">
+                   <a-input v-model="form.telegram_for_help" placeholder="link"/>
+                   </a-form-model-item>
+                  <a-form-model-item class="form-item mb-3" label="Telegram ( Notifications )" >
+                   <a-input v-model="form.telegram_for_notification" placeholder="link"/>
+                  </a-form-model-item>
+                   <a-form-model-item class="form-item mb-3" label="Telegram ( Orders )">
+                   <a-input v-model="form.telegram_for_orders" placeholder="link"/>
+                   </a-form-model-item>
+
+
+                  <div class="clearfix d-flex mt-3">
                     <a-form-model-item class="form-item mb-3 w-100" label="Лого">
                       <a-upload
-                          list-type="picture-card"
-                          :file-list="fileListLogo"
-                          :remove="($event) => handleRemove($event,'fileListLogo')"
-                          :before-upload="handleBeforeUpload"
-                          @preview="previewVisible = true"
-                          :custom-request="($event) => customRequest($event,'fileListLogo')"
-                          accept=".jpg, .png, .jpeg, .webp"
+                        list-type="picture-card"
+                        :file-list="fileListLogo"
+                        :remove="($event) => handleRemove($event,'fileListLogo')"
+                        :before-upload="handleBeforeUpload"
+                        @preview="previewVisible = true"
+                        :custom-request="($event) => customRequest($event,'fileListLogo')"
+                        accept=".jpg, .png, .jpeg, .webp"
                       >
                     <div v-if="fileListLogo.length < 1">
                       <a-icon type="plus"/>
@@ -121,13 +123,13 @@
                     </a-form-model-item>
                     <a-form-model-item class="form-item mb-3 w-100" label="Favicon">
                        <a-upload
-                           list-type="picture-card"
-                           :file-list="fileListIcon"
-                           :remove="($event) => handleRemove($event,'fileListIcon')"
-                           :before-upload="handleBeforeUpload"
-                           @preview="previewVisible = true"
-                           :custom-request="($event) => customRequest($event,'fileListIcon')"
-                           accept=".jpg, .png, .jpeg, .webp"
+                         list-type="picture-card"
+                         :file-list="fileListIcon"
+                         :remove="($event) => handleRemove($event,'fileListIcon')"
+                         :before-upload="handleBeforeUpload"
+                         @preview="previewVisible = true"
+                         :custom-request="($event) => customRequest($event,'fileListIcon')"
+                         accept=".jpg, .png, .jpeg, .webp"
                        >
                     <div v-if="fileListIcon.length < 1">
                       <a-icon type="plus"/>
@@ -136,9 +138,9 @@
                   </a-upload>
                     </a-form-model-item>
                     <a-modal
-                        :visible="previewVisible"
-                        :footer="null"
-                        @cancel="handleCancel"
+                      :visible="previewVisible"
+                      :footer="null"
+                      @cancel="handleCancel"
                     >
                       <img alt="example" style="width: 100%" :src="previewImage"/>
                     </a-modal>
@@ -276,6 +278,12 @@ export default {
         title_ru: "",
         desc_ru: "",
         desc_uz: "",
+        youtube: '',
+        telegram: '',
+        instagram: "",
+        telegram_for_notification: '',
+        telegram_for_orders: '',
+        telegram_for_help: '',
         phone_numbers: [{
           value: "",
           id: 1,
@@ -354,19 +362,19 @@ export default {
         Object.keys(this.form).forEach(elem => {
           this.form[elem] = data?.content[elem]
         })
-        this.form.phone_numbers = JSON.parse(data?.content?.phone_numbers).map((item,index) => {
+        this.form.phone_numbers = JSON.parse(data?.content?.phone_numbers).map((item, index) => {
           return {
             id: index + 1,
             value: item
           }
         })
-        this.form.emails = JSON.parse(data?.content?.emails).map((item,index) => {
+        this.form.emails = JSON.parse(data?.content?.emails).map((item, index) => {
           return {
             id: index + 1,
             value: item
           }
         })
-        if (data?.content?.favicon){
+        if (data?.content?.favicon) {
           this.form.icon = data?.content?.favicon;
           this.fileListIcon = [
             {

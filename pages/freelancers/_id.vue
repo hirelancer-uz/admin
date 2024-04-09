@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="freelancer">
     <TitleBlock>
-      <a-tabs type="card" @change="callback">
+      <a-tabs type="card" :active-key="userType" @change="callback">
         <a-tab-pane key="1" tab="Фрилансер"></a-tab-pane>
         <a-tab-pane key="2" tab="Заказчик"></a-tab-pane>
       </a-tabs>
@@ -447,11 +447,69 @@
                 </a-table>
               </div>
             </div>
+            <div v-if="$route.hash == '#reviews'">
+              <div class="card_block main-table px-4 py-4">
+                <FormTitle title="Заказы"/>
+                <a-table
+                  :columns="columnsSellerCommets"
+                  :data-source="freelancer?.customers_feedbacks"
+                  :pagination="false"
+                  :loading="loading"
+                  align="center"
+                >
+                  <nuxt-link
+                    class="title-link"
+                    :to="`/freelancers/${text?.id}`"
+                    slot="user"
+                    slot-scope="text"
+                  >{{ text?.name }} {{ text?.surname }} - #{{text?.id}}
+                  </nuxt-link>
+
+                  <span slot="specialities" slot-scope="text">
+            <a-tag color="red" v-if="text?.length == 0"> {{ text?.length }} </a-tag>
+            <a-tag
+              color="blue"
+              v-else
+              style="cursor: pointer"
+              @click="currentFreelancer(text)"
+            >
+              {{ text?.length }}
+            </a-tag>
+          </span>
+                  <span slot="orderId" slot-scope="text">#{{ text?.id }}</span>
+
+                  <span
+                    slot="status"
+                    slot-scope="tags"
+                    class="tags-style"
+                    :class="{
+              tag_success: tags.status == 4,
+              tag_inProgress: tags.status == 2 || tags.status == 3,
+              tag_approved: tags.status == 1,
+              tag_rejected: tags.status == 5 || tags.status == 6,
+              tag_mode: tags.status == 0,
+            }"
+                  >
+            {{ currentStatus(tags) }}
+          </span>
+                  <span slot="btns" slot-scope="text">
+
+            <span
+              v-if="checkAccess('orders', 'put')"
+              class="action-btn"
+              @click="$router.push(`/orders/order/${text}`)"
+              v-html="eyeIcon"
+            >
+            </span>
+          </span>
+                </a-table>
+              </div>
+            </div>
             <div v-if="$route.hash == '#my-orders'">
               <div class="card_block main-table px-4 py-4">
                 <FormTitle title="Заказы"/>
                 <a-table
-                    :columns="columnsOrders"
+                    :columns="columnsSellerOrders"
                     :data-source="seller?.orders"
                     :pagination="false"
                     :loading="loading"
@@ -547,20 +605,22 @@ import global from "../../mixins/global";
 import authAccess from "../../mixins/authAccess";
 import BiletCard from "../../components/cards/biletCard.vue";
 import moment from "moment";
-import {columnsOrders} from "@/pages/freelancers/columns";
+import {columnsOrders, columnsSellerOrders,columnsSellerCommets} from "@/pages/freelancers/columns";
 
 export default {
   mixins: [status, authAccess, global],
   head: {
-    title: "Заказ",
+    title: "Фрилансер",
   },
   data() {
     return {
       columnsOrders,
+      columnsSellerOrders,
+      columnsSellerCommets,
       toEdit: false,
       loading: false,
       visible: false,
-      userType: 1,
+      userType: '1',
       rules: {
         name: [
           {
@@ -789,7 +849,14 @@ export default {
     }
   },
   mounted() {
-    this.__GET_FREELANCER();
+    if(this.$route.hash === '#my-orders' || this.$route.hash === '#my-reviews') {
+      this.__GET_SELLER()
+      this.userType = '2'
+    } else {
+      this.userType = '1'
+      this.__GET_FREELANCER();
+
+    }
     this.__GET_REGIONS()
   },
   methods: {
@@ -852,11 +919,11 @@ export default {
       return Object.keys(value)
     },
     callback(e) {
-      this.userType = Number(e);
+      this.userType = e+"";
       this.$router.push({hash: this.tabList[this.userType][0].hash});
       switch (this.userType) {
-        case 1: this.__GET_FREELANCER();break;
-        case 2: this.__GET_SELLER();break
+        case '1': this.__GET_FREELANCER();break;
+        case '2': this.__GET_SELLER();break
       }
     },
     onDateChange(e) {

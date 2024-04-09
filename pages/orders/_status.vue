@@ -227,6 +227,9 @@ import authAccess from "../../mixins/authAccess";
 export default {
   layout: "toolbar",
   mixins: [columns, global, authAccess],
+  head: {
+    title: "Заказы",
+  },
   data() {
     return {
       specialities: [],

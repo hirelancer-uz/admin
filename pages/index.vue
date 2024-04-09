@@ -187,23 +187,12 @@ import authAccess from "@/mixins/authAccess";
 export default {
   layout: "toolbar",
   mixins: [columns, global, authAccess],
+  head: {
+    title: "Фрилансеры",
+  },
   data() {
     return {
       visible: false,
-      statusFilter: [
-        {
-          name: {
-            ru: "Активный",
-          },
-          id: 1,
-        },
-        {
-          name: {
-            ru: "Неактивный",
-          },
-          id: 2,
-        },
-      ],
       statusFilter: [
         {
           name: {

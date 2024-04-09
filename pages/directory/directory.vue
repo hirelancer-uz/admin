@@ -9,7 +9,7 @@ export default {
   name: "directory",
   mixins: [status, authAccess],
   head: {
-    title: "directory",
+    title: "Cправочник",
   },
   data() {
     return {
