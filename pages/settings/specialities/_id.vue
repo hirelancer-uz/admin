@@ -123,6 +123,7 @@
             <span>
               <div class="card_block main-table px-4 py-4">
                 <FormTitle title="Параметры"/>
+                <a-form-model-item class="form-item mb-3 mt-3" label="Статус">
                 <a-select v-model="value" class="form-item w-100" placeholder="Status">
                   <a-select-option
                     v-for="item in statusData"
@@ -132,6 +133,10 @@
                   >{{ item.label }}
                   </a-select-option>
                 </a-select>
+                </a-form-model-item>
+                <a-form-model-item class="form-item mb-3 mt-3" label="Порядок">
+                    <a-input type="number" placeholder="0" v-model="form.position"/>
+                  </a-form-model-item>
                 <div class="clearfix mt-4">
                   <a-upload
                     list-type="picture-card"
@@ -222,6 +227,7 @@ export default {
         name_uz: "",
         icon: "",
         parent_id: undefined,
+        position: 0
       },
       previewVisible: false,
       previewImage: "",
@@ -247,19 +253,16 @@ export default {
     },
     onSubmit() {
       let formData = new FormData();
-      if (this.fileList.length > 0 && !this.fileList.at(-1)?.id) {
+      if (this.fileList.length > 0 && !this.fileList.at(-1)?.id)
         formData.append("icon", this.fileList.at(-1).originFileObj);
-      }
+
       formData.append("_method", "PUT");
-      formData.append("name_ru", this.form.name_ru);
-      formData.append("name_uz", this.form.name_uz);
-      formData.append("parent_id", this.form.parent_id ? this.form.parent_id : "");
+      for (let item in this.form) {
+        if (item !== "icon")
+          formData.append(item, this.form[item] || "");
+      }
       this.$refs["ruleForm"].validate((valid) => {
-        if (valid) {
-          this.__EDIT_SPECIAL(formData);
-        } else {
-          return false;
-        }
+        valid ? this.__EDIT_SPECIAL(formData) : false
       });
     },
     async __DELETE_GLOBAL() {

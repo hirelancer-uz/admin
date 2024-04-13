@@ -109,6 +109,7 @@
             <span>
               <div class="card_block main-table px-4 py-4">
                 <FormTitle title="Параметры"/>
+                 <a-form-model-item class="form-item mb-3" label="Статус">
                 <a-select v-model="value" class="form-item w-100" placeholder="Status">
                   <a-select-option
                     v-for="item in statusData"
@@ -118,6 +119,10 @@
                   >{{ item.label }}
                   </a-select-option>
                 </a-select>
+                 </a-form-model-item>
+                <a-form-model-item class="form-item mb-3 mt-3" label="Порядок">
+                    <a-input type="number" placeholder="0" v-model="form.position"/>
+                  </a-form-model-item>
                 <div class="clearfix mt-4">
                   <a-upload
                     list-type="picture-card"
@@ -208,6 +213,7 @@ export default {
         name_uz: "",
         icon: "",
         parent_id: undefined,
+        position: 0
       },
       previewVisible: false,
       previewImage: "",
