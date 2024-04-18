@@ -1220,4 +1220,7 @@ export default {
   margin: 0 !important;
   height: 0 !important;
 }
+:deep(.ql-editor) {
+  max-width: 638px;
+}
 </style>
